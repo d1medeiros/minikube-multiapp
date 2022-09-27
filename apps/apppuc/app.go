@@ -1,15 +1,9 @@
 package main
 
 import (
-	"errors"
+	"apppuc/internal/service"
 	"github.com/gofiber/fiber/v2"
 )
-
-type Customer struct {
-	Id       string
-	Eligible bool
-	Limit    float64
-}
 
 func main() {
 	app := fiber.New()
@@ -18,15 +12,11 @@ func main() {
 		c.Accepts("application/json")
 		name := c.Params("id", "")
 		println(name)
-		if name == "x1" {
-			json := Customer{Id: "x1", Eligible: false}
-			return c.JSON(json)
+		customers, err := service.GetCustomers(name)
+		if err != nil {
+			return err
 		}
-		if name == "y1" {
-			json := Customer{Id: "y1", Eligible: true, Limit: 50000.0}
-			return c.JSON(json)
-		}
-		return errors.New("not found")
+		return c.JSON(customers)
 	})
 
 	err := app.Listen(":3000")
