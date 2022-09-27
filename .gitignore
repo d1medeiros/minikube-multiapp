@@ -29,3 +29,14 @@ override.tf.json
 # example: *tfplan*
 
 .idea
+# Misc
+*.fiber.gz
+*.fasthttp.gz
+*.pprof
+*.workspace
+
+# Dependencies
+/vendor/
+vendor/
+vendor
+/Godeps/
