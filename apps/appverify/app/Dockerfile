@@ -2,9 +2,9 @@ FROM ubuntu
 
 RUN mkdir myapp
 WORKDIR /myapp
-COPY . .
+COPY .. .
 
-RUN chmod +x ./app
+RUN chmod +x ./appbin
 RUN chmod +x ./run.sh
 EXPOSE 3001
 

@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: apppuc
-          image: app-puc:3
+          image: app-puc:5
           ports:
             - containerPort: 3000
           env:
