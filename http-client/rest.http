@@ -1,0 +1,14 @@
+
+
+### appverify GET verify
+GET http://127.0.0.1:3001/verify/x1
+Content-Type: application/json
+Accept: application/json
+
+
+### apppuc GET customer-offers
+GET http://127.0.0.1:3000/customer-offers/x3
+Content-Type: application/json
+Accept: application/json
+
+

@@ -1,0 +1,20 @@
+spring:
+  main:
+    banner-mode: off
+    lazy-initialization: false
+  lifecycle:
+    timeout-per-shutdown-phase: 60s
+  application:
+    name: tdahelper
+  jackson:
+    date-format: yyyy-MM-dd'T'HH:mm:ss'Z'
+#  r2dbc:
+#    url: r2dbc:mysql://@127.0.0.1:3306
+#    name: db
+#    password: sa
+#    username: sa
+logging:
+  level:
+    org:
+      springframework:
+        r2dbc: DEBUG

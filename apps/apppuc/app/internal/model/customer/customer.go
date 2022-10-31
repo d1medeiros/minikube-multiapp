@@ -1,7 +1,7 @@
 package customer
 
 type Customer struct {
-	Id       string
-	Eligible bool
-	Limit    float64
+	Id       string`json:"id"`
+	Eligible bool`json:"eligible"`
+	Limit    float64`json:"limit"`
 }
