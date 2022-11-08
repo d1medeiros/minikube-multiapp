@@ -85,6 +85,7 @@ class FullEventRepository(
 
 //    @Transactional
     suspend fun delete(event: Event) {
+        Logger.info("deleting {}", event)
         val id = event.id!!
         frequencyRepository.deleteById(id)
         eventRepository.deleteById(id)

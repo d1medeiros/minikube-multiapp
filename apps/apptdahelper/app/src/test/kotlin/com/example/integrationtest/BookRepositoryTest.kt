@@ -1,19 +1,22 @@
-package com.example.apiarchetypereactive.repository
+package com.example.integrationtest
 
 import com.example.apiarchetypereactive.config.Logger
 import com.example.apiarchetypereactive.model.Notebook
+import com.example.apiarchetypereactive.repository.BookRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.TestPropertySource
 
-@Disabled
-@SpringBootTest
+@EnableAutoConfiguration
+@SpringBootTest(classes = [TestConfig::class])
 @OptIn(ExperimentalCoroutinesApi::class)
-internal class BookRepositoryTest {
+@TestPropertySource("classpath:application.yml")
+class BookRepositoryTest {
 
     @Autowired
     lateinit var bookRepository: BookRepository
@@ -26,3 +29,4 @@ internal class BookRepositoryTest {
         assertNotNull(notebook)
     }
 }
+

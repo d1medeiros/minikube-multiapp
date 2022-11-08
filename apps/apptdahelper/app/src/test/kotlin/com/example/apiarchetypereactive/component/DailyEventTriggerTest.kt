@@ -44,7 +44,7 @@ internal class DailyEventTriggerTest {
     }
 
     @Test
-    fun `send, is limit`() = runTest{
+    fun `send, is limit and lastEvent not null`() = runTest{
         //setting limit
         dataBase = now.minusWeeks(1L)
         event = spyk(
@@ -55,12 +55,13 @@ internal class DailyEventTriggerTest {
                 frequency = frequency,
                 type = Type.HOME,
             ), recordPrivateCalls = true)
+        dailyEvent = mockk()
         every { frequency.times }.returns(1)
         every { frequency.subject }.returns(Subject.DAY)
         coJustRun { fullEventRepository.delete(any()) }
         val result = dailyEventTrigger.send(event, dailyEvent, now)
         coVerify { fullEventRepository.delete(any()) }
-        assertNull(result)
+        assertEquals(dailyEvent, result)
     }
 
     @Test

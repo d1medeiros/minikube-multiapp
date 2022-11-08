@@ -44,7 +44,7 @@ internal class DelayedEventTriggerTest {
     }
 
     @Test
-    fun `send, is limit`() = runTest{
+    fun `send, has daily and is limit`() = runTest{
         dataBase = now.minusWeeks(1L)
         event = spyk(
             Event(
@@ -74,6 +74,24 @@ internal class DelayedEventTriggerTest {
                 type = Type.HOME,
             ), recordPrivateCalls = true)
         dailyEvent = mockk()
+        frequency = spyk(Frequency(times = 1, subject = Subject.DAY))
+        every { event.id }.returns(1L)
+        every { event.frequency }.returns(frequency)
+        val result = delayedEventTrigger.send(event, dailyEvent, now)
+        coVerify(exactly = 0) { fullEventRepository.save(any()) }
+        assertNull(result)
+    }
+
+    @Test
+    fun `send, has NO daily and is limit`() = runTest{
+        dataBase = now.minusDays(1L)
+        event = spyk(
+            Event(
+                label = label,
+                dataBase = dataBase,
+                frequency = frequency,
+                type = Type.HOME,
+            ), recordPrivateCalls = true)
         frequency = spyk(Frequency(times = 1, subject = Subject.DAY))
         every { event.id }.returns(1L)
         every { event.frequency }.returns(frequency)

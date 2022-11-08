@@ -40,7 +40,7 @@ class DefaultEventTrigger(
             .findByNotebookIdAndLabel(dailyList, event.label)
         val afterOrEqual = now.isAfterOrEqual(event.dataBase)
         Logger.info(
-            "event[{}] isAfter[{}]:\n{}\n{} \ndailyEvent.isNull:{}",
+            "\nevent[{}] isAfter[{}]:\n{}\n{} \ndailyEvent.isNull:{}\n",
             event.id,
             afterOrEqual,
             now,
@@ -85,7 +85,7 @@ class DailyEventTrigger(
         val frequency = event.frequency
         val afterOrEqual = now.isAfterOrEqual(event.dataBase)
         Logger.info(
-            "event[{}] isAfter[{}]:\n{}\n{} \ndailyEvent.isNull:{}",
+            "\nevent[{}] isAfter[{}]:\n{}\n{} \ndailyEvent.isNull:{}\n",
             event.id,
             afterOrEqual,
             now,
@@ -93,10 +93,10 @@ class DailyEventTrigger(
             lastEvent == null,
         )
         return when {
-            event.dataBase.isLimit(now) -> {
+            event.dataBase.isLimit(now) && lastEvent != null -> {
                 Logger.info("event.dataBase.isLimit(now)")
-                fullEventRepository.delete(event)
-                return null
+                fullEventRepository.delete(lastEvent)
+                return lastEvent
             }
 
             afterOrEqual && lastEvent == null -> {
@@ -132,15 +132,15 @@ class DelayedEventTrigger(
     ): Event? {
         val frequency = event.frequency
         Logger.info(
-            "event[{}] isAfter:{} dailyEvent.isNull:{}",
+            "\nevent[{}] isAfter:{} dailyEvent.isNull:{}\n",
             event.id,
             now.isAfterOrEqual(event.dataBase),
             lastEvent == null
         )
         return when {
-            event.dataBase.isLimit(now) ->
+            event.dataBase.isLimit(now) && lastEvent != null ->
                 fullEventRepository.save(
-                    event.copy(
+                    lastEvent.copy(
                         id = null,
                         frequency = frequency?.copy(id = null),
                         notebookId = delayedList
