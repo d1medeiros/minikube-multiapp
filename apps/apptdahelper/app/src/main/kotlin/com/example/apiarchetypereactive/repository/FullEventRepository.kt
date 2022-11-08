@@ -1,28 +1,137 @@
 package com.example.apiarchetypereactive.repository
 
-import com.example.apiarchetypereactive.config.Logger
 import com.example.apiarchetypereactive.model.Event
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.runBlocking
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 
 @Repository
 class FullEventRepository(
-    private val eventRepository: EventRepository,
+    private val eventRepository: EventWriteRepository,
     private val frequencyRepository: FrequencyRepository
 ) {
+    val Logger: Logger = LoggerFactory.getLogger(javaClass)
+
+
+    suspend fun count(): Long {
+        return eventRepository.count()
+    }
+
+    suspend fun findById(id: Long): Event {
+        val event = eventRepository.findById(id)
+            ?: throw Exception("event not found")
+        return findFrequency(event)
+    }
+
+    private suspend fun findFrequency(event: Event): Event {
+        val frequency = frequencyRepository.findByEventId(event.id!!)
+            ?: throw Exception("frequency not found")
+        return event.apply {
+            this.frequency = frequency
+        }
+    }
+
+    suspend fun findAll(id: Long): List<Event> {
+        Logger.info("searching eventos")
+        return eventRepository.findAllByNotebookId(id)
+            .map {
+                Logger.info("searching frequency")
+                it.frequency = frequencyRepository.findByEventId(it.id!!)
+                it
+            }.toList()
+    }
+
+
+//    @Transactional
+    suspend fun save(event: Event): Event {
+        Logger.info("salvando {}", event)
+        val eventSaved = eventRepository.save(event)
+        event.frequency?.let {
+            it.eventId = eventSaved.id
+            frequencyRepository.save(it)
+        }
+        return eventSaved
+    }
+
+    suspend fun deleteAll() {
+        frequencyRepository.deleteAll()
+        eventRepository.deleteAll()
+    }
+
+    fun saveAll(baseEvents: List<Event>): List<Event> {
+        val fullrepo = this
+        return runBlocking {
+            baseEvents.map {
+                async {
+                    fullrepo.save(it)
+                }
+            }.awaitAll()
+        }
+    }
+
+    suspend fun existsByNotebookIdAndLabel(dailyList: Long, label: String): Boolean {
+        return eventRepository.existsByNotebookIdAndLabel(dailyList, label) > 0
+    }
+
+    suspend fun findByNotebookIdAndLabel(dailyList: Long, label: String): Event? {
+        return eventRepository.findByNotebookIdAndLabel(dailyList, label)?.let {
+            return findFrequency(it)
+        }
+    }
+
+//    @Transactional
+    suspend fun delete(event: Event) {
+        val id = event.id!!
+        frequencyRepository.deleteById(id)
+        eventRepository.deleteById(id)
+    }
+}
+
+@Repository
+class WEventRepository(
+    private val eventRepository: EventWriteRepository,
+    private val frequencyRepository: FrequencyRepository
+) {
+    val Logger: Logger = LoggerFactory.getLogger(javaClass)
 
     @Transactional
     suspend fun save(event: Event): Event {
-        val frequency = event.frequency
-            ?: throw Exception("frequency null")
+        Logger.info("salvando {}", event)
         val eventSaved = eventRepository.save(event)
-        frequency.eventId = eventSaved.id
-        frequencyRepository.save(frequency)
+        event.frequency?.let {
+            it.eventId = eventSaved.id
+            frequencyRepository.save(it)
+        }
         return eventSaved
     }
+
+    suspend fun deleteAll() {
+        frequencyRepository.deleteAll()
+        eventRepository.deleteAll()
+    }
+
+    fun saveAll(baseEvents: List<Event>): List<Event> {
+        val fullrepo = this
+        return runBlocking {
+            baseEvents.map {
+                async {
+                    fullrepo.save(it)
+                }
+            }.awaitAll()
+        }
+    }
+}
+
+@Repository
+class REventRepository(
+    private val eventRepository: EventReadRepository,
+    private val frequencyRepository: FrequencyRepository
+) {
+    val Logger: Logger = LoggerFactory.getLogger(javaClass)
 
     suspend fun count(): Long {
         return eventRepository.count()
@@ -38,9 +147,9 @@ class FullEventRepository(
         }
     }
 
-    suspend fun findAll(): List<Event> {
+    suspend fun findAll(id: Long): List<Event> {
         Logger.info("searching eventos")
-        return eventRepository.findAll()
+        return eventRepository.findAllByNotebookId(id)
             .map {
                 Logger.info("searching frequency")
                 it.frequency = frequencyRepository.findByEventId(it.id!!)
@@ -48,20 +157,5 @@ class FullEventRepository(
             }.toList()
     }
 
-    suspend fun deleteAll() {
-        frequencyRepository.deleteAll()
-        eventRepository.deleteAll()
-    }
-
-    @Transactional
-    suspend fun saveAll(baseEvents: Flow<Event>) {
-        eventRepository.saveAll(baseEvents)
-            .collect {
-                val frequency = it.frequency
-                    ?: throw Exception("frequency null")
-                frequency.eventId = it.id
-                val f = frequencyRepository.save(frequency)
-                println("$it $f")
-            }
-    }
 }
+

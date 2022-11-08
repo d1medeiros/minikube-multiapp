@@ -13,8 +13,8 @@ spring:
 #    name: db
 #    password: sa
 #    username: sa
-logging:
-  level:
-    org:
-      springframework:
-        r2dbc: DEBUG
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        r2dbc: DEBUG

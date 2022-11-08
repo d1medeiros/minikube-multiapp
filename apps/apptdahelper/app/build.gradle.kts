@@ -39,10 +39,12 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp")
     implementation("com.squareup.okhttp3:mockwebserver")
     implementation("com.github.jasync-sql:jasync-r2dbc-mysql:2.1.7")
+    testImplementation("io.mockk:mockk:1.13.2")
 //    implementation("org.springframework.data:spring-data-r2dbc:1.5.5")
 //    implementation("dev.miku:r2dbc-mysql:0.8.2.RELEASE")
     runtimeOnly("com.mysql:mysql-connector-j:8.0.31")
 //    testRuntimeOnly("com.mysql:mysql-connector-j:8.0.31")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
 

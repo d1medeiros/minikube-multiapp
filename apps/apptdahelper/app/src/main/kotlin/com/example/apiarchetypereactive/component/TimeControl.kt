@@ -1,38 +1,47 @@
 package com.example.apiarchetypereactive.component
 
 import com.example.apiarchetypereactive.config.Logger
-import com.example.apiarchetypereactive.extension.plus
 import com.example.apiarchetypereactive.model.Event
-import com.example.apiarchetypereactive.repository.FullEventRepository
+import com.example.apiarchetypereactive.model.Notebook
+import com.example.apiarchetypereactive.repository.REventRepository
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
+import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 
+@Component
 class TimeControl(
-    private val eventTrigger: EventTrigger
+    private val eventMap: List<EventTrigger>
 ) {
-
-    fun run(dateTime: LocalDateTime, event: Event) = runBlocking {
+    suspend fun run(dateTime: LocalDateTime, event: Event, notebookId: Long) {
         Logger.info("time: {} event: {}", dateTime, event.label)
-        val frequency = event.frequency ?: throw Exception("frequency is null")
-        val isAfter = dateTime.isAfter(dateTime.plus(frequency))
-        if (isAfter) eventTrigger.send(event)
+        var lastEvent: Event? = null
+        for (eventTrigger in eventMap.asSequence()) {
+            lastEvent = eventTrigger.send(event, lastEvent, dateTime)
+        }
     }
-
 }
 
+
+@Component
 class EventManager(
-    private val fullEventRepository: FullEventRepository,
+    private val eventRepository: REventRepository,
     private val timeControl: TimeControl
 ) {
 
-    private var list = runBlocking {
-        fullEventRepository.findAll()
-    }
 
-
-    fun run(now: LocalDateTime) {
-        for (event in list) {
-            timeControl.run(now, event)
-        }
+    // run every 1h
+    fun run(now: LocalDateTime) = runBlocking {
+        eventRepository.findAll(defaultList)
+            .map {
+                async {
+                    timeControl.run(now, it, defaultList)
+                }
+            }.awaitAll()
     }
+}
+
+fun List<Notebook>.notebook(id: Long): Notebook {
+    return this.first { it.id == id }
 }

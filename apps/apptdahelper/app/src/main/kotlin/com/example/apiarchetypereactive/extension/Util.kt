@@ -14,3 +14,21 @@ fun LocalDateTime.plus(frequency: Frequency): LocalDateTime {
         else -> this
     }
 }
+
+fun LocalDateTime.isAfterOrEqual(date: LocalDateTime): Boolean {
+    return this.isAfter(date)
+        .or(this.isEqual(date))
+}
+
+fun LocalDateTime.isLimit(date: LocalDateTime): Boolean {
+    val plusWeeks = this.plusWeeks(1L)
+    return date.isAfterOrEqual(plusWeeks)
+
+
+}
+
+fun Frequency?.getNextDateTime(dataBase: LocalDateTime): LocalDateTime {
+   return this?.let {
+        dataBase.plus(it)
+    } ?: throw Exception("frequency is null")
+}

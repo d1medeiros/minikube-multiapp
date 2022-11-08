@@ -12,11 +12,12 @@ data class Event(
     @field:Id
     val id: Long? = null,
     val label: String,
-    val dataBase: LocalDateTime,
+    var dataBase: LocalDateTime,
     @field:Transient
     var frequency: Frequency? = null,
     var active: Boolean = false,
     val type: Type,
+    var notebookId: Long? = null,
 ) {
 
     @PersistenceCreator
@@ -26,8 +27,9 @@ data class Event(
         dataBase: LocalDateTime,
         active: Byte,
         type: Type,
+        notebookId: Long? = null,
     ) : this(
-        id, label, dataBase, null, active.toBoolean(), type
+        id, label, dataBase, null, active.toBoolean(), type, notebookId
     ){
         this.frequency = null
     }

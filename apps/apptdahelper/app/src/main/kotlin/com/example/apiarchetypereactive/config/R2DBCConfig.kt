@@ -1,5 +1,8 @@
 package com.example.apiarchetypereactive.config
 
+//import com.github.jasync.r2dbc.mysql.JasyncConnectionFactory
+//import com.github.jasync.r2dbc.mysql.JasyncRow
+//import com.github.jasync.sql.db.mysql.pool.MySQLConnectionFactory
 import com.example.apiarchetypereactive.model.Event
 import com.example.apiarchetypereactive.model.Frequency
 import com.example.apiarchetypereactive.model.Subject
@@ -7,9 +10,6 @@ import com.example.apiarchetypereactive.model.Type
 import com.github.jasync.r2dbc.mysql.JasyncConnectionFactory
 import com.github.jasync.r2dbc.mysql.JasyncRow
 import com.github.jasync.sql.db.mysql.pool.MySQLConnectionFactory
-//import com.github.jasync.r2dbc.mysql.JasyncConnectionFactory
-//import com.github.jasync.r2dbc.mysql.JasyncRow
-//import com.github.jasync.sql.db.mysql.pool.MySQLConnectionFactory
 import io.r2dbc.spi.ConnectionFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -23,7 +23,6 @@ import java.time.LocalDateTime
 
 
 @Configuration
-//@EnableR2dbcRepositories
 class MyAppConfig(
     val jasyncConnectionFactory: JasyncConnectionFactory
 ) : AbstractR2dbcConfiguration() {
@@ -50,11 +49,12 @@ class JasyncConfig {
         return JasyncConnectionFactory(
             MySQLConnectionFactory(
                 com.github.jasync.sql.db.Configuration(
-                    "sa",
-                    "localhost",
-                    3306,
-                    "sa",
-                    "db"
+                    username = "sa",
+                    host = "localhost",
+                    port = 3306,
+                    password = "sa",
+                    database = "db",
+                    maximumMessageSize = 100_000,
                 )
             )
         )
@@ -90,6 +90,7 @@ class EventReadConverter : Converter<JasyncRow, Event> {
                 ?: throw Exception("active null"),
             type = r.get("type", String::class.java)
                 ?.let { Type.valueOf(it) } ?: Type.NONE,
+            notebookId = r.get("notebook_id", Long::class.java)!!,
         )
     }
 }
@@ -117,6 +118,7 @@ class EventWritingConverter : Converter<Event, OutboundRow> {
         OutboundRow(
             mapOf(
                 "id" to Parameter.fromOrEmpty(e.id, Long::class.java),
+                "notebook_id" to Parameter.fromOrEmpty(e.notebookId, Long::class.java),
                 "label" to Parameter.fromOrEmpty(e.label, String::class.java),
                 "data_base" to Parameter.fromOrEmpty(e.dataBase, LocalDateTime::class.java),
                 "active" to Parameter.fromOrEmpty(e.active.toByte(), Byte::class.java),
