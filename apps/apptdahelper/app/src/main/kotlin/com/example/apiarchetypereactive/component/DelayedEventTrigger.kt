@@ -19,7 +19,7 @@ class DelayedEventTrigger(
     ): Event? {
         val frequency = event.frequency
         Logger.debug(
-            "\nevent[{}] isAfter:{} dailyEvent.isNull:{}\n",
+            "event[{}] isAfter:{} dailyEvent.isNull:{}",
             event.id,
             now.isAfterOrEqual(event.dataBase),
             lastEvent == null

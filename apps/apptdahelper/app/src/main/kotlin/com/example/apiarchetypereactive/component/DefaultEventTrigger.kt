@@ -24,7 +24,7 @@ class DefaultEventTrigger(
             .findByNotebookIdAndLabel(dailyList, event.label)
         val afterOrEqual = now.isAfterOrEqual(event.dataBase)
         Logger.debug(
-            "\nevent[{}] isAfter[{}]:\n{}\n{} \ndailyEvent.isNull:{}\n",
+            "event[{}] isAfter[{}]:{}-{} dailyEvent.isNull:{}",
             event.id,
             afterOrEqual,
             now,
