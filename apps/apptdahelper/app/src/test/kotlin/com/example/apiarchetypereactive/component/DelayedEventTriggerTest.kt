@@ -1,5 +1,6 @@
 package com.example.apiarchetypereactive.component
 
+import com.example.apiarchetypereactive.extension.minusFrequency
 import com.example.apiarchetypereactive.model.Event
 import com.example.apiarchetypereactive.model.Frequency
 import com.example.apiarchetypereactive.model.Subject
@@ -44,20 +45,26 @@ internal class DelayedEventTriggerTest {
     }
 
     @Test
-    fun `send, has daily and is limit`() = runTest{
+    fun `send, has dailyEvent and is limit`() = runTest{
         dataBase = now.minusWeeks(1L)
+        frequency = spyk(Frequency(times = 1, subject = Subject.DAY))
         event = spyk(
             Event(
+                id = 1L,
                 label = label,
                 dataBase = dataBase,
                 frequency = frequency,
                 type = Type.HOME,
             ), recordPrivateCalls = true)
-        dailyEvent = mockk()
+        dailyEvent = spyk(
+            Event(
+                id = 2L,
+                label = label,
+                dataBase = dataBase.minusFrequency(frequency),
+                frequency = frequency,
+                type = Type.HOME,
+            ), recordPrivateCalls = true)
         val newSavedEvent: Event = mockk()
-        frequency = spyk(Frequency(times = 1, subject = Subject.DAY))
-        every { event.id }.returns(1L)
-        every { event.frequency }.returns(frequency)
         coEvery { fullEventRepository.save(any()) }.returns(newSavedEvent)
         val result = delayedEventTrigger.send(event, dailyEvent, now)
         assertEquals(newSavedEvent, result)

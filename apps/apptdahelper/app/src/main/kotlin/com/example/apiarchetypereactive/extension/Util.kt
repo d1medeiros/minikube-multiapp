@@ -5,12 +5,22 @@ import com.example.apiarchetypereactive.model.Subject
 import java.time.LocalDateTime
 
 
-fun LocalDateTime.plus(frequency: Frequency): LocalDateTime {
+fun LocalDateTime.plusFrequency(frequency: Frequency): LocalDateTime {
     return when (frequency.subject) {
         Subject.DAY -> this.plusDays(frequency.times.toLong())
         Subject.WEEK -> this.plusWeeks(frequency.times.toLong())
         Subject.MONTH -> this.plusMonths(frequency.times.toLong())
         Subject.YEAR -> this.plusYears(frequency.times.toLong())
+        else -> this
+    }
+}
+
+fun LocalDateTime.minusFrequency(frequency: Frequency): LocalDateTime {
+    return when (frequency.subject) {
+        Subject.DAY -> this.minusDays(frequency.times.toLong())
+        Subject.WEEK -> this.minusWeeks(frequency.times.toLong())
+        Subject.MONTH -> this.minusMonths(frequency.times.toLong())
+        Subject.YEAR -> this.minusYears(frequency.times.toLong())
         else -> this
     }
 }
@@ -29,7 +39,7 @@ fun LocalDateTime.isLimit(date: LocalDateTime): Boolean {
 
 fun Frequency?.getNextDateTime(dataBase: LocalDateTime): LocalDateTime {
    return this?.let {
-        dataBase.plus(it)
+        dataBase.plusFrequency(it)
     } ?: throw Exception("frequency is null")
 }
 
