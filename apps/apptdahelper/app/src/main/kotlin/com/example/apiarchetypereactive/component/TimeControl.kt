@@ -2,7 +2,6 @@ package com.example.apiarchetypereactive.component
 
 import com.example.apiarchetypereactive.config.Logger
 import com.example.apiarchetypereactive.model.Event
-import com.example.apiarchetypereactive.model.Notebook
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 
@@ -17,9 +16,4 @@ class TimeControl(
             lastEvent = eventTrigger.send(event, lastEvent, dateTime)
         }
     }
-}
-
-
-fun List<Notebook>.notebook(id: Long): Notebook {
-    return this.first { it.id == id }
 }

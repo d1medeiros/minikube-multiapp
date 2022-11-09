@@ -20,7 +20,7 @@ class DailyEventTrigger(
     ): Event? {
         val frequency = event.frequency
         val afterOrEqual = now.isAfterOrEqual(event.dataBase)
-        Logger.info(
+        Logger.debug(
             "\nevent[{}] isAfter[{}]:\n{}\n{} \ndailyEvent.isNull:{}\n",
             event.id,
             afterOrEqual,
@@ -30,13 +30,13 @@ class DailyEventTrigger(
         )
         return when {
             event.dataBase.isLimit(now) && lastEvent != null -> {
-                Logger.info("event.dataBase.isLimit(now)")
+                Logger.debug("event.dataBase.isLimit(now)")
                 fullEventRepository.delete(lastEvent)
                 return lastEvent
             }
 
             afterOrEqual && lastEvent == null -> {
-                Logger.info("afterOrEqual && lastEvent == null")
+                Logger.debug("afterOrEqual && lastEvent == null")
                 fullEventRepository.save(
                     event.copy(
                         id = null,
@@ -46,11 +46,11 @@ class DailyEventTrigger(
                 )
             }
             lastEvent != null -> {
-                Logger.info("lastEvent != null")
+                Logger.debug("lastEvent != null")
                 lastEvent
             }
             else -> {
-                Logger.info("else")
+                Logger.debug("else")
                 null
             }
         }

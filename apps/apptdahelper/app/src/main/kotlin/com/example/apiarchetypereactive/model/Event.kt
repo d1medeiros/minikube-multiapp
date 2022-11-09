@@ -1,6 +1,6 @@
 package com.example.apiarchetypereactive.model
 
-import com.example.apiarchetypereactive.config.toBoolean
+import com.example.apiarchetypereactive.extension.toBoolean
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.PersistenceCreator
 import org.springframework.data.annotation.Transient

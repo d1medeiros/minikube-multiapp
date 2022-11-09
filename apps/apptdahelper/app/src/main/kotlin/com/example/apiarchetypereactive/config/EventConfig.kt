@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Configuration
 class EventConfig(
     private val fullEventRepository: FullEventRepository
 ) {
-
     @Bean
     fun eventMap(): Sequence<EventTrigger> {
         return arrayListOf(

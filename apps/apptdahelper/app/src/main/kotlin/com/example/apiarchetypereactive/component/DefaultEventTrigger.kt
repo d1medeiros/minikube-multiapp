@@ -23,7 +23,7 @@ class DefaultEventTrigger(
         val dailyEvent = fullEventRepository
             .findByNotebookIdAndLabel(dailyList, event.label)
         val afterOrEqual = now.isAfterOrEqual(event.dataBase)
-        Logger.info(
+        Logger.debug(
             "\nevent[{}] isAfter[{}]:\n{}\n{} \ndailyEvent.isNull:{}\n",
             event.id,
             afterOrEqual,
@@ -33,7 +33,7 @@ class DefaultEventTrigger(
         )
         return when {
             afterOrEqual && dailyEvent == null -> {
-                Logger.info("afterOrEqual && dailyEvent == null")
+                Logger.debug("afterOrEqual && dailyEvent == null")
                 fullEventRepository.save(
                     event.copy(
                         dataBase = newDate,
@@ -44,11 +44,11 @@ class DefaultEventTrigger(
             }
 
             dailyEvent != null -> {
-                Logger.info("dailyEvent != null")
+                Logger.debug("dailyEvent != null")
                 dailyEvent
             }
             else -> {
-                Logger.info("else")
+                Logger.debug("else")
                 null
             }
         }

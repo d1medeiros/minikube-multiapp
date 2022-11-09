@@ -32,3 +32,17 @@ fun Frequency?.getNextDateTime(dataBase: LocalDateTime): LocalDateTime {
         dataBase.plus(it)
     } ?: throw Exception("frequency is null")
 }
+
+
+fun Byte.toBoolean(): Boolean {
+    return when (this) {
+        0.toByte() -> true
+        else -> false
+    }
+}
+fun Boolean.toByte(): Byte {
+    return when (this) {
+        true -> 0.toByte()
+        else -> 1.toByte()
+    }
+}

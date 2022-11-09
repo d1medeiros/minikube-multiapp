@@ -10,11 +10,11 @@ spring:
     date-format: yyyy-MM-dd'T'HH:mm:ss'Z'
 db:
   r2dbc:
-    url: 127.0.0.1
-    port: 3306
-    name: db
-    password: sa
-    username: sa
+#    url: 127.0.0.1
+#    port: 3306
+#    name: db
+#    password: sa
+#    username: sa
     maximum-message-size: 10000
 #logging:
 #  level:
