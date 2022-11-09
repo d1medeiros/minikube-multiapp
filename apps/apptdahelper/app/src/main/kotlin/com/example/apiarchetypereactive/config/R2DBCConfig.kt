@@ -1,8 +1,6 @@
 package com.example.apiarchetypereactive.config
 
-//import com.github.jasync.r2dbc.mysql.JasyncConnectionFactory
-//import com.github.jasync.r2dbc.mysql.JasyncRow
-//import com.github.jasync.sql.db.mysql.pool.MySQLConnectionFactory
+import com.example.apiarchetypereactive.config.properties.DataBaseProperties
 import com.example.apiarchetypereactive.model.Event
 import com.example.apiarchetypereactive.model.Frequency
 import com.example.apiarchetypereactive.model.Subject
@@ -42,19 +40,21 @@ class MyAppConfig(
 }
 
 @Configuration
-class JasyncConfig {
+class JasyncConfig(
+
+) {
 
     @Bean
-    fun jasyncConnectionFactory(): JasyncConnectionFactory {
+    fun jasyncConnectionFactory(dataBaseProperties: DataBaseProperties): JasyncConnectionFactory {
         return JasyncConnectionFactory(
             MySQLConnectionFactory(
                 com.github.jasync.sql.db.Configuration(
-                    username = "sa",
-                    host = "localhost",
-                    port = 3306,
-                    password = "sa",
-                    database = "db",
-                    maximumMessageSize = 100_000,
+                    username = dataBaseProperties.username!!,
+                    host = dataBaseProperties.url!!,
+                    port = dataBaseProperties.port!!,
+                    password = dataBaseProperties.password!!,
+                    database = dataBaseProperties.name!!,
+                    maximumMessageSize = dataBaseProperties.maximumMessageSize!!,
                 )
             )
         )

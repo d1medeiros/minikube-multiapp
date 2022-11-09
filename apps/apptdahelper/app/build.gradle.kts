@@ -19,7 +19,7 @@ repositories {
     maven { url = uri("https://repo.spring.io/snapshot") }
 }
 
-allOpen{
+allOpen {
     annotation("com.example.apiarchetypereactive.model.MOpen")
 }
 
@@ -39,11 +39,13 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp")
     implementation("com.squareup.okhttp3:mockwebserver")
     implementation("com.github.jasync-sql:jasync-r2dbc-mysql:2.1.7")
-    testImplementation("io.mockk:mockk:1.13.2")
-//    implementation("org.springframework.data:spring-data-r2dbc:1.5.5")
-//    implementation("dev.miku:r2dbc-mysql:0.8.2.RELEASE")
+    implementation(platform("org.testcontainers:testcontainers-bom:1.17.5"))
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     runtimeOnly("com.mysql:mysql-connector-j:8.0.31")
-//    testRuntimeOnly("com.mysql:mysql-connector-j:8.0.31")
+    testImplementation("io.mockk:mockk:1.13.2")
+    testImplementation("org.testcontainers:junit-jupiter:1.17.5")
+    testImplementation("org.testcontainers:testcontainers:1.17.5")
+    testImplementation("org.testcontainers:mysql") //no version specified
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")

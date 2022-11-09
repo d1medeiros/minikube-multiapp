@@ -1,12 +1,12 @@
 package com.example.apiarchetypereactive
 
+import com.example.apiarchetypereactive.config.properties.DataBaseProperties
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
-import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories
 
 @SpringBootApplication
-@EnableConfigurationProperties
+@EnableConfigurationProperties(DataBaseProperties::class)
 class App
 
 fun main(args: Array<String>) {

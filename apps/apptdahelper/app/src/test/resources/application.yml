@@ -8,11 +8,14 @@ spring:
     name: tdahelper
   jackson:
     date-format: yyyy-MM-dd'T'HH:mm:ss'Z'
-#  r2dbc:
-#    url: r2dbc:mysql://@127.0.0.1:3306
-#    name: db
-#    password: sa
-#    username: sa
+db:
+  r2dbc:
+    url: 127.0.0.1
+    port: 3306
+    name: db
+    password: sa
+    username: sa
+    maximum-message-size: 10000
 #logging:
 #  level:
 #    org:
