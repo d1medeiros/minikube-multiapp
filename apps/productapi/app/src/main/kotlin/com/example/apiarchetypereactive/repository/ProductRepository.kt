@@ -1,10 +1,9 @@
 package com.example.apiarchetypereactive.repository
 
 import com.example.apiarchetypereactive.model.Product
-import com.example.apiarchetypereactive.model.SellerDTO
-import com.example.apiarchetypereactive.model.SkuDTO
+import com.example.apiarchetypereactive.model.dto.SellerDTO
+import com.example.apiarchetypereactive.model.dto.SkuDTO
 import org.springframework.stereotype.Repository
-import java.util.UUID
 
 @Repository
 class ProductRepository {
