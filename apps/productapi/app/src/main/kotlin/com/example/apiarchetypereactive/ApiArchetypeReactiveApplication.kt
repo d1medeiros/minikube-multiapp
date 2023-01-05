@@ -9,5 +9,6 @@ import org.springframework.boot.runApplication
 class ApiArchetypeReactiveApplication
 
 fun main(args: Array<String>) {
+
     runApplication<ApiArchetypeReactiveApplication>(*args)
 }

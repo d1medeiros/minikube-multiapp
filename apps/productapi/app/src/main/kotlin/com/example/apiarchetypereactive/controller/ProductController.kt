@@ -1,7 +1,6 @@
 package com.example.apiarchetypereactive.controller
 
 import com.example.apiarchetypereactive.model.Product
-import com.example.apiarchetypereactive.model.SaleOffer
 import com.example.apiarchetypereactive.service.ProductService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
