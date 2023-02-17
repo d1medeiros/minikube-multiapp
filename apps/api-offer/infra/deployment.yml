@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apioffer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: apioffer
+  template:
+    metadata:
+      labels:
+        run: apioffer
+    spec:
+      containers:
+        - name: apioffer
+          image: api-offer:1
+          ports:
+            - containerPort: 3000
+          env:
+            - name: GET_HOSTS_FROM
+              value: dns

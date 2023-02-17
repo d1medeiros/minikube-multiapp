@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway-service
+  labels:
+    run: gateway-service
+spec:
+  type: LoadBalancer
+  selector:
+    run: apigateway
+  ports:
+    - protocol: TCP
+      port: 3002
+      targetPort: 3000

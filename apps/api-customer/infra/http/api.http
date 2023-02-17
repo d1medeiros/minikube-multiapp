@@ -1,0 +1,9 @@
+
+
+### get customer
+http://localhost:7080/customer/1
+Content-Type: application/json
+
+### get not found
+http://localhost:7080/customer/5
+Content-Type: application/json

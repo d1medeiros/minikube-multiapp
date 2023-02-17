@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apigateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: apigateway
+  template:
+    metadata:
+      labels:
+        run: apigateway
+    spec:
+      containers:
+        - name: apigateway
+          image: api-gateway:3
+          ports:
+            - containerPort: 3000
+          env:
+            - name: GET_HOSTS_FROM
+              value: dns

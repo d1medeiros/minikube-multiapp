@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apicustomer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: apicustomer
+  template:
+    metadata:
+      labels:
+        run: apicustomer
+    spec:
+      containers:
+        - name: apicustomer
+          image: api-customer:5
+          ports:
+            - containerPort: 3000
+          env:
+            - name: GET_HOSTS_FROM
+              value: dns

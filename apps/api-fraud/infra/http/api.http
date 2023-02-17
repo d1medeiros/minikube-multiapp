@@ -1,0 +1,14 @@
+
+
+### get account
+http://localhost:7080/account?customer_id=1dfads
+Content-Type: application/json
+
+### get not found
+http://localhost:7080/account?customer_id=dfdfdf
+Content-Type: application/json
+
+
+### customer
+http://localhost:7080/customer/1
+Content-Type: application/json
