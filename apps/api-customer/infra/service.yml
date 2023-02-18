@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: customer-service
   labels:
+    alias: localhost
     run: customer-service
 spec:
   type: LoadBalancer

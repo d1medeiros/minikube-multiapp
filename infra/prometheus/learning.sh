@@ -1,0 +1,1 @@
+minikube kubectl -- create namespace monitoring

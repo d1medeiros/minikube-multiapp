@@ -1,4 +1,4 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: account-ns
+#apiVersion: v1
+#kind: Namespace
+#metadata:
+#  name: account-ns

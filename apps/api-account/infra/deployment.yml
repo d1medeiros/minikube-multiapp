@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: apiaccount
-          image: api-account:3
+          image: api-account:1
           ports:
             - containerPort: 3000
           env:

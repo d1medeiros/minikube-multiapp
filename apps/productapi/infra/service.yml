@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-service
+  namespace: monitoring
+  labels:
+    run: product-service
+spec:
+  type: NodePort
+  selector:
+    run: apiproduct
+  ports:
+    - protocol: TCP
+      port: 3005
+      targetPort: 8080

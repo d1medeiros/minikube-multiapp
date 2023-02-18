@@ -6,11 +6,17 @@ import (
 	"fmt"
 	"github.com/go-resty/resty/v2"
 	"github.com/gofiber/fiber/v2"
+	"os"
 )
 
 var app *fiber.App
 var customerClient *resty.Client
 var accountClient *resty.Client
+
+var customer_host = os.Getenv("CUSTOMER_ENDPOINT")
+var account_host = os.Getenv("ACCOUNT_ENDPOINT")
+var fraud_host = os.Getenv("FRAUD_ENDPOINT")
+var offer_host = os.Getenv("OFFER_ENDPOINT")
 
 func init() {
 	app = fiber.New()
@@ -28,7 +34,7 @@ func server() {
 		c.Accepts("application/json")
 		var wrapper []model.Account
 		cus := &[]model.Customer{}
-		err := callGet[[]model.Customer]("http://apicustomer:3000/customers", cus)
+		err := callGet[[]model.Customer](fmt.Sprintf("http://%s/customers", customer_host), cus)
 		if err != nil {
 			return err
 		}
@@ -37,19 +43,19 @@ func server() {
 		for _, item := range list {
 			fmt.Printf("customer %s", item.Name)
 			acc := &model.Account{}
-			err = callGet[model.Account](fmt.Sprintf("http://apiaccount:3001/accounts?customer_id=%s", item.Id), acc)
+			err = callGet[model.Account](fmt.Sprintf("http://%s/accounts?customer_id=%s", account_host, item.Id), acc)
 			if err != nil {
 				return err
 			}
 			fmt.Printf("customer:%s account:%s ", item.Name, acc.Id)
 			fr := &model.Fraud{}
-			err = callGet[model.Fraud](fmt.Sprintf("http://apifraud:3002/frauds/%s", acc.Id), fr)
+			err = callGet[model.Fraud](fmt.Sprintf("http://%s/frauds/%s", fraud_host, acc.Id), fr)
 			if err != nil {
 				return err
 			}
 			acc.Allowed = fr.Allowed
 			of := &model.Offer{}
-			err = callGet[model.Offer](fmt.Sprintf("http://apioffer:3003/offers?account_id=%s", acc.Id), of)
+			err = callGet[model.Offer](fmt.Sprintf("http://%s/offers?account_id=%s", offer_host, acc.Id), of)
 			if err != nil {
 				return err
 			}

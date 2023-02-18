@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: apigateway
+  namespace: monitoring
 spec:
   replicas: 1
   selector:
@@ -14,9 +15,17 @@ spec:
     spec:
       containers:
         - name: apigateway
-          image: api-gateway:3
+          image: api-gateway:4
           ports:
             - containerPort: 3000
           env:
             - name: GET_HOSTS_FROM
               value: dns
+            - name: CUSTOMER_ENDPOINT
+              value: customer-service:3000
+            - name: ACCOUNT_ENDPOINT
+              value: account-service:3001
+            - name: FRAUD_ENDPOINT
+              value: fraud-service:3002
+            - name: OFFER_ENDPOINT
+              value: offer-service:3003

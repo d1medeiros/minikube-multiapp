@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apiproduct
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: apiproduct
+  template:
+    metadata:
+      labels:
+        run: apiproduct
+    spec:
+      containers:
+        - name: apiproduct
+          image: api-product:1
+          ports:
+            - containerPort: 8080
+          env:
+            - name: GET_HOSTS_FROM
+              value: dns

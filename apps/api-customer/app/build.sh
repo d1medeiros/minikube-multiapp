@@ -4,7 +4,7 @@
 #echo $OLDVERSION
 #sed -i 's//d/'$OLDVERSION'/' appversion
 APPNAME="api-customer"
-VERSION=5
+VERSION=1
 DOCKER_IMAGE="${APPNAME}:${VERSION}"
 echo $DOCKER_IMAGE
 GOOS=linux GOARCH=amd64 go build -ldflags "-extldflags '-static'" -o appbin ./app.go
