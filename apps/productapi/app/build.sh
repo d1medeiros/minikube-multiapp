@@ -4,7 +4,7 @@
 #echo $OLDVERSION
 #sed -i 's//d/'$OLDVERSION'/' appversion
 APPNAME="api-product"
-VERSION=1
+VERSION=4
 DOCKER_IMAGE="${APPNAME}:${VERSION}"
 echo $DOCKER_IMAGE
 ./gradlew build

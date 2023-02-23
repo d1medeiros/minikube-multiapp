@@ -3,6 +3,8 @@ kind: Service
 metadata:
   name: product-service
   namespace: monitoring
+  annotations:
+    prometheus.io/scrape: 'true'
   labels:
     run: product-service
 spec:
@@ -12,4 +14,4 @@ spec:
   ports:
     - protocol: TCP
       port: 3005
-      targetPort: 8080
+      targetPort: 8010

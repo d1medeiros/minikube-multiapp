@@ -15,9 +15,9 @@ spec:
     spec:
       containers:
         - name: apiproduct
-          image: api-product:1
+          image: api-product:4
           ports:
-            - containerPort: 8080
+            - containerPort: 8010
           env:
             - name: GET_HOSTS_FROM
               value: dns
