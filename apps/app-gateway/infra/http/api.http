@@ -3,8 +3,8 @@ POST http://localhost:7080/run
 Content-Type: application/json
 
 
-### get account
-http://localhost:7080/account?customer_id=1dfads
+###
+http://localhost:3000/metrics
 Content-Type: application/json
 
 ### get not found

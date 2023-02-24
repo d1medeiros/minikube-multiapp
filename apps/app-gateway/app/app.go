@@ -4,6 +4,7 @@ import (
 	"apppuc/internal/model"
 	"encoding/json"
 	"fmt"
+	"github.com/ansrivas/fiberprometheus/v2"
 	"github.com/go-resty/resty/v2"
 	"github.com/gofiber/fiber/v2"
 	"os"
@@ -25,6 +26,10 @@ func init() {
 }
 
 func main() {
+	prometheus := fiberprometheus.New("my-service-name")
+	prometheus.RegisterAt(app, "/metrics")
+	app.Use(prometheus.Middleware)
+
 	server()
 
 }
