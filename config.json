@@ -3,6 +3,7 @@
     {
       "version": 5,
       "name": "app-gateway/app",
+      "innerdir": "app/go",
       "type": "apps",
       "namespace": "monitoring",
       "label": "apigateway"
@@ -10,6 +11,7 @@
     {
       "version": 5,
       "name": "app-gateway/infra",
+      "innerdir": "infra",
       "type": "apps",
       "namespace": "monitoring",
       "label": "apigateway",
@@ -17,11 +19,37 @@
       "port": 4001
     },
     {
-      "version": 1,
+      "version": 2,
       "name": "productapi/app",
+      "innerdir": "app/java",
       "type": "apps",
       "namespace": "monitoring",
       "label": "productapi"
+    },
+    {
+      "version": 2,
+      "name": "productapi/infra",
+      "innerdir": "infra",
+      "type": "apps",
+      "namespace": "monitoring",
+      "label": "productapi",
+      "cport": 8010,
+      "port": 3005
+    },{
+      "version": 0,
+      "name": "prometheus",
+      "action": "kubectl apply -f .",
+      "type": "infra",
+      "namespace": "monitoring",
+      "label": "infra-create"
+    },
+    {
+      "version": 0,
+      "name": "prometheus",
+      "action": "kubectl delete -f .",
+      "type": "infra",
+      "namespace": "monitoring",
+      "label": "infra-delete"
     }
   ]
 }

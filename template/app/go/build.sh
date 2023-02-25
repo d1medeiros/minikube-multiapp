@@ -1,4 +1,6 @@
 
+
+
 VERSION=$(jq '.version' ./template/finalconfig.json)
 NAMESPACE=$(jq '.namespace' ./template/finalconfig.json)
 LABEL=$(jq '.label' ./template/finalconfig.json)
@@ -11,11 +13,11 @@ IMAGE="$CLEAN_LABEL:$VERSION"
 
 APPNAME=$CLEAN_LABEL
 echo "iniciando build $APPNAME com versão $VERSION"
+
 DOCKER_IMAGE=$IMAGE
 echo $DOCKER_IMAGE
-./gradlew build
+GOOS=linux GOARCH=amd64 go build -ldflags "-extldflags '-static'" -o appbin ./app.go
 export DOCKER_IMAGE=$DOCKER_IMAGE
 echo ${DOCKER_IMAGE}
-docker build -t ${DOCKER_IMAGE} .
-#docker push ${DOCKER_IMAGE}
+docker build -t ${DOCKER_IMAGE} . --no-cache
 minikube image load ${DOCKER_IMAGE}

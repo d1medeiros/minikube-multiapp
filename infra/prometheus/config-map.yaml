@@ -25,12 +25,15 @@ data:
       - /etc/prometheus/prometheus.rules
     scrape_configs:
       # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
-      - job_name: 'prometheus'
-    
-        # Override the global default and scrape targets from this job every 5 seconds.
+      - job_name: 'prometheus-spring'
         scrape_interval: 5s
         metrics_path: '/actuator/prometheus'
         static_configs:
-          - targets: ['product-service.monitoring:3005']
+          - targets: ['productapi-svc.monitoring:3005']
+      - job_name: 'prometheus-go'
+        scrape_interval: 5s
+        metrics_path: '/metrics'
+        static_configs:
+          - targets: ['apigateway-svc.monitoring:4001']
 
     

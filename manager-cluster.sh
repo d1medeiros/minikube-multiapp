@@ -9,7 +9,7 @@
 
 #NAME="app-gateway/app"
 #NAME="app-gateway/infra"
-NAME="apigateway"
+NAME="infra-create"
 
 WORKPLACE=$(pwd)
 
@@ -21,12 +21,21 @@ do
   cd $WORKPLACE
   jq '.config  | map(select(.label == "'$NAME'")) | .['$(($c-1))']' ./config.json | tee -i finalconfig.json
   NAMEMODULE=$(cat ./finalconfig.json | jq -r '.name')
+  INNER_DIR=$(cat ./finalconfig.json | jq -r '.innerdir')
   VERSION=$(cat ./finalconfig.json | jq '.version')
   TYPE=$(cat ./finalconfig.json | jq -r '.type')
-
   echo "running $NAMEMODULE version:$VERSION"
-  mv finalconfig.json ./$TYPE/$NAMEMODULE/template
-  cd ./$TYPE/$NAMEMODULE
-
-  sh build.sh
+  if [ $TYPE == "apps" ]
+  then
+    echo "work type apps"
+    cp ./template/$INNER_DIR/build.sh ./$TYPE/$NAMEMODULE
+    mv finalconfig.json ./$TYPE/$NAMEMODULE/template
+    cd ./$TYPE/$NAMEMODULE
+    sh build.sh
+  else
+    echo "work type infra"
+    ACTION=$(cat ./finalconfig.json | jq -r '.action')
+    cd ./$TYPE/$NAMEMODULE
+    eval $ACTION
+  fi
 done
