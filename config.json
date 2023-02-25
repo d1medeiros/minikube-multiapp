@@ -1,0 +1,27 @@
+{
+  "config": [
+    {
+      "version": 5,
+      "name": "app-gateway/app",
+      "type": "apps",
+      "namespace": "monitoring",
+      "label": "apigateway"
+    },
+    {
+      "version": 5,
+      "name": "app-gateway/infra",
+      "type": "apps",
+      "namespace": "monitoring",
+      "label": "apigateway",
+      "cport": 3000,
+      "port": 4001
+    },
+    {
+      "version": 1,
+      "name": "productapi/app",
+      "type": "apps",
+      "namespace": "monitoring",
+      "label": "productapi"
+    }
+  ]
+}

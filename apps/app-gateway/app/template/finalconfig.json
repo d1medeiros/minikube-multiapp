@@ -1,0 +1,7 @@
+{
+  "version": 5,
+  "name": "app-gateway/app",
+  "type": "apps",
+  "namespace": "monitoring",
+  "label": "apigateway"
+}
