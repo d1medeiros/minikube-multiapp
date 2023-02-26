@@ -29,11 +29,11 @@ data:
         scrape_interval: 5s
         metrics_path: '/actuator/prometheus'
         static_configs:
-          - targets: ['productapi-svc.monitoring:3005']
+          - targets: ['productapi-svc.monitoring:4001']
       - job_name: 'prometheus-go'
         scrape_interval: 5s
         metrics_path: '/metrics'
         static_configs:
-          - targets: ['apigateway-svc.monitoring:4001']
+          - targets: ['apigateway-svc.monitoring:4000', 'apicustomer-svc.monitoring:4002', 'apiaccount-svc.monitoring:4003', 'apifraud-svc.monitoring:4004', 'apioffer-svc.monitoring:4005']
 
     

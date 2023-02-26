@@ -7,9 +7,14 @@
 #minikube dashboard --url
 #minikube image load app-puc:1
 
-#NAME="app-gateway/app"
-#NAME="app-gateway/infra"
-NAME="infra-create"
+#NAME="apigateway"
+#NAME="productapi"
+#NAME="apicustomer"
+NAME="apiaccount"
+#NAME="apifraud"
+#NAME="apioffer"
+#NAME="infra-create"
+#NAME="infra-delete"
 
 WORKPLACE=$(pwd)
 

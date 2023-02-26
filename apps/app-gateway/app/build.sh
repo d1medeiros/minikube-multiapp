@@ -12,8 +12,8 @@ IMAGE="$CLEAN_LABEL:$VERSION"
 
 
 APPNAME=$CLEAN_LABEL
-echo "iniciando build $APPNAME com versão $1"
-#VERSION=6
+echo "iniciando build $APPNAME com versão $VERSION"
+
 DOCKER_IMAGE=$IMAGE
 echo $DOCKER_IMAGE
 GOOS=linux GOARCH=amd64 go build -ldflags "-extldflags '-static'" -o appbin ./app.go

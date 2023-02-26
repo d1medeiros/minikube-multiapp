@@ -20,7 +20,7 @@ func main() {
 		}
 	})
 
-	err := app.Listen(":3001")
+	err := app.Listen(":3000")
 	if err != nil {
 		println(err)
 	}

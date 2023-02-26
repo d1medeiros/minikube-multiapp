@@ -1,9 +1,10 @@
 {
-  "version": 5,
+  "version": 1,
   "name": "app-gateway/infra",
+  "innerdir": "infra",
   "type": "apps",
   "namespace": "monitoring",
   "label": "apigateway",
   "cport": 3000,
-  "port": 4001
+  "port": 4000
 }

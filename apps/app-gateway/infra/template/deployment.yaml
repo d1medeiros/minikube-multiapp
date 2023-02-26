@@ -22,10 +22,10 @@ spec:
             - name: GET_HOSTS_FROM
               value: dns
             - name: CUSTOMER_ENDPOINT
-              value: customer-service:3000
+              value: apicustomer-svc:4002
             - name: ACCOUNT_ENDPOINT
-              value: account-service:3001
+              value: apiaccount-svc:4003
             - name: FRAUD_ENDPOINT
-              value: fraud-service:3002
+              value: apifraud-svc:4004
             - name: OFFER_ENDPOINT
-              value: offer-service:3003
+              value: apioffer-svc:4005

@@ -1,7 +1,7 @@
 {
   "config": [
     {
-      "version": 5,
+      "version": 1,
       "name": "app-gateway/app",
       "innerdir": "app/go",
       "type": "apps",
@@ -9,17 +9,17 @@
       "label": "apigateway"
     },
     {
-      "version": 5,
+      "version": 1,
       "name": "app-gateway/infra",
       "innerdir": "infra",
       "type": "apps",
       "namespace": "monitoring",
       "label": "apigateway",
       "cport": 3000,
-      "port": 4001
+      "port": 4000
     },
     {
-      "version": 2,
+      "version": 1,
       "name": "productapi/app",
       "innerdir": "app/java",
       "type": "apps",
@@ -27,17 +27,98 @@
       "label": "productapi"
     },
     {
-      "version": 2,
+      "version": 1,
       "name": "productapi/infra",
       "innerdir": "infra",
       "type": "apps",
       "namespace": "monitoring",
       "label": "productapi",
       "cport": 8010,
-      "port": 3005
-    },{
+      "port": 4001
+    },
+    {
+      "version": 1,
+      "name": "api-customer/app",
+      "innerdir": "app/go",
+      "type": "apps",
+      "namespace": "monitoring",
+      "label": "apicustomer"
+    },
+    {
+      "version": 1,
+      "name": "api-customer/infra",
+      "innerdir": "infra",
+      "type": "apps",
+      "namespace": "monitoring",
+      "label": "apicustomer",
+      "cport": 3000,
+      "port": 4002
+    },
+    {
+      "version": 2,
+      "name": "api-account/app",
+      "innerdir": "app/go",
+      "type": "apps",
+      "namespace": "monitoring",
+      "label": "apiaccount"
+    },
+    {
+      "version": 2,
+      "name": "api-account/infra",
+      "innerdir": "infra",
+      "type": "apps",
+      "namespace": "monitoring",
+      "label": "apiaccount",
+      "cport": 3000,
+      "port": 4003
+    },
+    {
+      "version": 1,
+      "name": "api-fraud/app",
+      "innerdir": "app/go",
+      "type": "apps",
+      "namespace": "monitoring",
+      "label": "apifraud"
+    },
+    {
+      "version": 1,
+      "name": "api-fraud/infra",
+      "innerdir": "infra",
+      "type": "apps",
+      "namespace": "monitoring",
+      "label": "apifraud",
+      "cport": 3000,
+      "port": 4004
+    },
+    {
+      "version": 1,
+      "name": "api-offer/app",
+      "innerdir": "app/go",
+      "type": "apps",
+      "namespace": "monitoring",
+      "label": "apioffer"
+    },
+    {
+      "version": 1,
+      "name": "api-offer/infra",
+      "innerdir": "infra",
+      "type": "apps",
+      "namespace": "monitoring",
+      "label": "apioffer",
+      "cport": 3000,
+      "port": 4005
+    },
+    {
       "version": 0,
       "name": "prometheus",
+      "action": "kubectl apply -f .",
+      "type": "infra",
+      "namespace": "monitoring",
+      "label": "infra-create"
+    },
+    {
+      "version": 0,
+      "name": "grafana",
       "action": "kubectl apply -f .",
       "type": "infra",
       "namespace": "monitoring",

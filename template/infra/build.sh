@@ -25,6 +25,7 @@ cat ./template/service.yaml \
   | yq '.metadata.namespace |= '$NAMESPACE''  \
   | yq '.metadata.name |= "'$LABEL_SERVICE'"'  \
   | yq '.metadata.labels.run |= "'$LABEL_SERVICE'"'  \
+  | yq '.spec.type |= "NodePort"'  \
   | yq '.spec.selector.run |= '$LABEL''  \
   | yq '.spec.ports[0].port |= '$PORT''  \
   | yq '.spec.ports[0].targetPort |= '$CPORT''  \
