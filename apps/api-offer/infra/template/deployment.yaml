@@ -1,10 +1,13 @@
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  namespace: monitoring
-  name: apicustomer
+  name: x
+  namespace: x
 spec:
+  replicas: 1
   selector:
     matchLabels:
-      run: apicustomer
+      run: x
   template:
     metadata:
       labels:
@@ -14,7 +17,7 @@ spec:
         - name: x
           image: x
           ports:
-            - containerPort: 3000
+            - containerPort: x
           env:
             - name: GET_HOSTS_FROM
               value: dns
