@@ -26,7 +26,8 @@ func init() {
 }
 
 func main() {
-	prometheus := fiberprometheus.New("my-service-name")
+	var appname = os.Getenv("APP_NAME")
+	prometheus := fiberprometheus.New(appname)
 	prometheus.RegisterAt(app, "/metrics")
 	app.Use(prometheus.Middleware)
 

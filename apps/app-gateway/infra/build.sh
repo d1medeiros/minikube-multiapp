@@ -18,6 +18,8 @@ cat ./template/deployment.yaml \
   | yq '.spec.template.spec.containers[0].name |= '$LABEL''  \
   | yq '.spec.template.spec.containers[0].image |= "'$IMAGE'"'  \
   | yq '.spec.template.spec.containers[0].ports[0].containerPort |= '$CPORT''  \
+  | yq '.spec.template.spec.containers[0].env[1].name |= "APP_NAME"'  \
+  | yq '.spec.template.spec.containers[0].env[1].value |= '$LABEL''  \
   | tee -i deployment.yaml
 
 LABEL_SERVICE="$CLEAN_LABEL-svc"

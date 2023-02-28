@@ -9,8 +9,8 @@
 
 #NAME="apigateway"
 #NAME="productapi"
-#NAME="apicustomer"
-NAME="apiaccount"
+NAME="apicustomer"
+#NAME="apiaccount"
 #NAME="apifraud"
 #NAME="apioffer"
 #NAME="infra-create"

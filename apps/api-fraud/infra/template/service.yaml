@@ -1,0 +1,12 @@
+metadata:
+  namespace: monitoring
+  name: x-svc
+  labels:
+    run: x-svc
+spec:
+  type: NodePort
+  selector:
+    run: x
+  ports:
+    - port: x
+      targetPort: 3000

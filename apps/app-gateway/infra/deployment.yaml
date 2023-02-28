@@ -15,12 +15,14 @@ spec:
     spec:
       containers:
         - name: apigateway
-          image: apigateway:1
+          image: apigateway:2
           ports:
             - containerPort: 3000
           env:
             - name: GET_HOSTS_FROM
               value: dns
+            - name: APP_NAME
+              value: apigateway
             - name: CUSTOMER_ENDPOINT
               value: apicustomer-svc:4002
             - name: ACCOUNT_ENDPOINT

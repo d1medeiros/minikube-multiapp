@@ -21,6 +21,8 @@ spec:
           env:
             - name: GET_HOSTS_FROM
               value: dns
+            - name: APP_NAME
+              value: x
             - name: CUSTOMER_ENDPOINT
               value: apicustomer-svc:4002
             - name: ACCOUNT_ENDPOINT

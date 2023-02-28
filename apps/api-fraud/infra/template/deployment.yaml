@@ -1,0 +1,22 @@
+metadata:
+  namespace: monitoring
+  name: apicustomer
+spec:
+  selector:
+    matchLabels:
+      run: apicustomer
+  template:
+    metadata:
+      labels:
+        run: x
+    spec:
+      containers:
+        - name: x
+          image: x
+          ports:
+            - containerPort: 3000
+          env:
+            - name: GET_HOSTS_FROM
+              value: dns
+            - name: APP_NAME
+              value: x

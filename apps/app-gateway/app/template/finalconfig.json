@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "name": "app-gateway/app",
   "innerdir": "app/go",
   "type": "apps",
