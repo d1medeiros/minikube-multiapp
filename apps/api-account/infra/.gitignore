@@ -1,2 +1,3 @@
 *.yaml
 template/finalconfig.json
+build.sh
