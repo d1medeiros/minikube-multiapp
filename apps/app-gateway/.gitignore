@@ -1,0 +1,3 @@
+infra/*.yaml
+infra/template/finalconfig.json
+*/build.sh
