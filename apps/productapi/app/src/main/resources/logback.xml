@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+<!--    <if condition='property("log.consoleOnly").equalsIgnoreCase("false")'>-->
+<!--        <then>-->
+            <appender name="JSON" class="ch.qos.logback.core.ConsoleAppender">
+                <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+                    <customFields>{"application":"api-finance","username":"", "tid":"", "event_type":"", "document":"", "delivery":""}</customFields>
+                    <timeZone>UTC</timeZone>
+                    <timestampPattern>yyyy-MM-dd'T'HH:mm:ss</timestampPattern>
+                    <fieldNames>
+                        <timestamp>date</timestamp>
+                        <message>message</message>
+                        <level>level</level>
+                        <caller>caller</caller>
+                        <callerClass>class</callerClass>
+                        <callerMethod>method</callerMethod>
+                        <callerFile>file</callerFile>
+                        <callerLine>line</callerLine>
+                    </fieldNames>
+                    <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
+                        <rootCauseFirst>true</rootCauseFirst>
+                    </throwableConverter>
+                    <includeCallerData>true</includeCallerData>
+                    <provider class="net.logstash.logback.composite.loggingevent.ThrowableClassNameJsonProvider"/>
+                    <provider class="net.logstash.logback.composite.loggingevent.RootStackTraceElementJsonProvider"/>
+                </encoder>
+            </appender>
+            <root level="INFO">
+                <appender-ref ref="JSON"/>
+            </root>
+<!--        </then>-->
+<!--        <else>-->
+<!--            <include resource="org/springframework/boot/logging/logback/base.xml"/>-->
+<!--        </else>-->
+<!--    </if>-->
+
+
+<!--    <logger name="com.zaxxer.hikari" level="${log.libs.level:-WARN}" />-->
+<!--    <logger name="org.springframework" level="${log.libs.level:-WARN}" />-->
+<!--    <logger name="org.apache" level="${log.libs.level:-WARN}" />-->
+<!--    <logger name="ma.glasnost.orika" level="${log.libs.level:-WARN}" />-->
+<!--    <logger name="ch.qos.logback" level="${log.libs.level:-WARN}" />-->
+<!--    <logger name="javax.servlet" level="${log.libs.level:-WARN}" />-->
+<!--    <logger name="com.fasterxml.jackson" level="${log.libs.level:-WARN}" />-->
+<!--    <logger name="org.mongodb" level="${log.libs.level:-WARN}" />-->
+<!--    <logger name="org.hibernate" level="${log.libs.level:-WARN}" />-->
+
+
+</configuration>

@@ -9,12 +9,14 @@
 
 #NAME="apigateway"
 #NAME="productapi"
-NAME="apicustomer"
+#NAME="apicustomer"
 #NAME="apiaccount"
 #NAME="apifraud"
 #NAME="apioffer"
 #NAME="infra-create"
 #NAME="infra-delete"
+
+NAME=$1
 
 WORKPLACE=$(pwd)
 

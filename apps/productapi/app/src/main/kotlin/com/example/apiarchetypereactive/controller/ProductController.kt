@@ -17,13 +17,13 @@ class ProductController(
     val log: Logger = LoggerFactory.getLogger(javaClass)
 
     @GetMapping
-    suspend fun find(): Set<Product> {
+    fun find(): Set<Product> {
         log.info("buscando todos produtos")
         return productService.findAll()
     }
 
     @GetMapping("/{id}")
-    suspend fun findById(@PathVariable id: String): Product {
+    fun findById(@PathVariable("id") id: String): Product {
         log.info("buscando produto $id")
         return productService.findById(id)
     }

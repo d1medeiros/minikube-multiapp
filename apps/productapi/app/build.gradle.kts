@@ -26,6 +26,9 @@ dependencies {
 	runtimeOnly("io.micrometer:micrometer-registry-prometheus")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+	implementation("net.logstash.logback:logstash-logback-encoder:6.6")
+	implementation("ch.qos.logback:logback-classic")
+	implementation("org.codehaus.janino:janino")
 	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }

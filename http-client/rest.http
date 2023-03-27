@@ -6,9 +6,34 @@ Content-Type: application/json
 Accept: application/json
 
 
+### product GET by id
+http://localhost:4001/product/1
+Content-Type: application/json
+
+### product GET by id local
+http://localhost:8010/product/1
+Content-Type: application/json
+
+
+### product GET all
+http://localhost:4001/product
+Content-Type: application/json
+
+### product GET local
+http://localhost:8010/product
+Content-Type: application/json
+
+
 ### apppuc GET customer-offers
 GET http://127.0.0.1:3000/customer-offers/x3
 Content-Type: application/json
 Accept: application/json
+
+
+### elasticsearch
+# curl http://localhost:9200/_cluster/state?pretty
+GET http://localhost:9200/_cluster/state?pretty
+
+###
 
 

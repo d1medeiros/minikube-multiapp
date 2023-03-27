@@ -1,7 +1,7 @@
 {
   "config": [
     {
-      "version": 2,
+      "version": 1,
       "name": "app-gateway/app",
       "innerdir": "app/go",
       "type": "apps",
@@ -9,7 +9,7 @@
       "label": "apigateway"
     },
     {
-      "version": 2,
+      "version": 1,
       "name": "app-gateway/infra",
       "innerdir": "infra",
       "type": "apps",
@@ -37,7 +37,7 @@
       "port": 4001
     },
     {
-      "version": 2,
+      "version": 1,
       "name": "api-customer/app",
       "innerdir": "app/go",
       "type": "apps",
@@ -45,7 +45,7 @@
       "label": "apicustomer"
     },
     {
-      "version": 2,
+      "version": 1,
       "name": "api-customer/infra",
       "innerdir": "infra",
       "type": "apps",
@@ -55,7 +55,7 @@
       "port": 4002
     },
     {
-      "version": 3,
+      "version": 1,
       "name": "api-account/app",
       "innerdir": "app/go",
       "type": "apps",
@@ -63,7 +63,7 @@
       "label": "apiaccount"
     },
     {
-      "version": 3,
+      "version": 1,
       "name": "api-account/infra",
       "innerdir": "infra",
       "type": "apps",
@@ -73,7 +73,7 @@
       "port": 4003
     },
     {
-      "version": 2,
+      "version": 1,
       "name": "api-fraud/app",
       "innerdir": "app/go",
       "type": "apps",
@@ -81,7 +81,7 @@
       "label": "apifraud"
     },
     {
-      "version": 2,
+      "version": 1,
       "name": "api-fraud/infra",
       "innerdir": "infra",
       "type": "apps",
@@ -91,7 +91,7 @@
       "port": 4004
     },
     {
-      "version": 2,
+      "version": 1,
       "name": "api-offer/app",
       "innerdir": "app/go",
       "type": "apps",
@@ -99,7 +99,7 @@
       "label": "apioffer"
     },
     {
-      "version": 2,
+      "version": 1,
       "name": "api-offer/infra",
       "innerdir": "infra",
       "type": "apps",
@@ -122,11 +122,19 @@
       "action": "kubectl apply -f .",
       "type": "infra",
       "namespace": "monitoring",
-      "label": "infra-createx"
+      "label": "infra-create"
     },
     {
       "version": 0,
       "name": "prometheus",
+      "action": "kubectl delete -f .",
+      "type": "infra",
+      "namespace": "monitoring",
+      "label": "infra-delete"
+    },
+    {
+      "version": 0,
+      "name": "grafana",
       "action": "kubectl delete -f .",
       "type": "infra",
       "namespace": "monitoring",
