@@ -4,7 +4,7 @@
 <!--        <then>-->
             <appender name="JSON" class="ch.qos.logback.core.ConsoleAppender">
                 <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-                    <customFields>{"application":"api-finance","username":"", "tid":"", "event_type":"", "document":"", "delivery":""}</customFields>
+                    <customFields>{"application":"productapi","username":"", "tid":""}</customFields>
                     <timeZone>UTC</timeZone>
                     <timestampPattern>yyyy-MM-dd'T'HH:mm:ss</timestampPattern>
                     <fieldNames>

@@ -37,9 +37,6 @@ spec:
               cpu: 100m
               memory: 200Mi
           volumeMounts:
-#            - name: f-volume
-#              mountPath: /fluentd/etc/fluent.conf
-#              subPath: fluent.conf
             - name: k-volume
               mountPath: /fluentd/etc/kubernetes.conf
               subPath: kubernetes.conf
@@ -50,9 +47,6 @@ spec:
               readOnly: true
       terminationGracePeriodSeconds: 30
       volumes:
-#        - name: f-volume
-#          configMap:
-#            name: fluentd-conf
         - name: k-volume
           configMap:
             name: kubernetes-conf

@@ -19,7 +19,7 @@
       "port": 4000
     },
     {
-      "version": 3,
+      "version": 4,
       "name": "productapi/app",
       "innerdir": "app/java",
       "type": "apps",
@@ -27,7 +27,7 @@
       "label": "productapi"
     },
     {
-      "version": 3,
+      "version": 4,
       "name": "productapi/infra",
       "innerdir": "infra",
       "type": "apps",
