@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: apigateway
-          image: apigateway:1
+          image: apigateway:9
           ports:
             - containerPort: 3000
           env:

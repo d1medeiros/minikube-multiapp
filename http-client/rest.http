@@ -35,5 +35,8 @@ Accept: application/json
 GET http://localhost:9200/_cluster/state?pretty
 
 ###
+GET http://localhost:9200/_cluster/health?pretty
 
-
+### account GET all
+http://localhost:3000/accounts?customer_id=1
+Content-Type: application/json

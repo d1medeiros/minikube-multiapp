@@ -25,7 +25,7 @@ fun main(args: Array<String>) {
 @Component
 class ScheduledTasks {
     private val log: Logger = LoggerFactory.getLogger(javaClass)
-    @Scheduled(fixedRate = 2000)
+    @Scheduled(fixedRate = 3000)
     fun reportCurrentTime() {
         log.info("The time is now")
     }

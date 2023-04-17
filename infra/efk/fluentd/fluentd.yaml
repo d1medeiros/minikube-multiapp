@@ -22,12 +22,18 @@ spec:
         - name: fluentd
           image: fluent/fluentd-kubernetes-daemonset:v1.15.3-debian-elasticsearch7-1.1
           env:
+            - name: K8S_NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
             - name:  FLUENT_ELASTICSEARCH_HOST
               value: "elasticsearch.monitoring.svc.cluster.local"
             - name:  FLUENT_ELASTICSEARCH_PORT
               value: "9200"
             - name: FLUENT_ELASTICSEARCH_SCHEME
               value: "http"
+            - name: FLUENT_CONTAINER_TAIL_PATH
+              value: "/var/log/containers/api*.log,/var/log/containers/app*.log"
             - name: FLUENTD_SYSTEMD_CONF
               value: disable
           resources:
@@ -35,8 +41,11 @@ spec:
               memory: 512Mi
             requests:
               cpu: 100m
-              memory: 200Mi
+              memory: 300Mi
           volumeMounts:
+#            - name: f-volume
+#              mountPath: /fluentd/etc/fluent.conf
+#              subPath: fluent.conf
             - name: k-volume
               mountPath: /fluentd/etc/kubernetes.conf
               subPath: kubernetes.conf
@@ -47,6 +56,9 @@ spec:
               readOnly: true
       terminationGracePeriodSeconds: 30
       volumes:
+#        - name: f-volume
+#          configMap:
+#            name: fluentd-conf
         - name: k-volume
           configMap:
             name: kubernetes-conf

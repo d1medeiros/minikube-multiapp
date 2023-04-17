@@ -1,7 +1,7 @@
 {
   "config": [
     {
-      "version": 1,
+      "version": 9,
       "name": "app-gateway/app",
       "innerdir": "app/go",
       "type": "apps",
@@ -9,7 +9,7 @@
       "label": "apigateway"
     },
     {
-      "version": 1,
+      "version": 9,
       "name": "app-gateway/infra",
       "innerdir": "infra",
       "type": "apps",
@@ -19,25 +19,25 @@
       "port": 4000
     },
     {
-      "version": 4,
-      "name": "productapi/app",
+      "version": 5,
+      "name": "apiproduct/app",
       "innerdir": "app/java",
       "type": "apps",
       "namespace": "monitoring",
-      "label": "productapi"
+      "label": "apiproduct"
     },
     {
-      "version": 4,
-      "name": "productapi/infra",
+      "version": 5,
+      "name": "apiproduct/infra",
       "innerdir": "infra",
       "type": "apps",
       "namespace": "monitoring",
-      "label": "productapi",
+      "label": "apiproduct",
       "cport": 8010,
       "port": 4001
     },
     {
-      "version": 1,
+      "version": 2,
       "name": "api-customer/app",
       "innerdir": "app/go",
       "type": "apps",
@@ -45,7 +45,7 @@
       "label": "apicustomer"
     },
     {
-      "version": 1,
+      "version": 2,
       "name": "api-customer/infra",
       "innerdir": "infra",
       "type": "apps",
@@ -55,7 +55,7 @@
       "port": 4002
     },
     {
-      "version": 1,
+      "version": 6,
       "name": "api-account/app",
       "innerdir": "app/go",
       "type": "apps",
@@ -63,7 +63,7 @@
       "label": "apiaccount"
     },
     {
-      "version": 1,
+      "version": 6,
       "name": "api-account/infra",
       "innerdir": "infra",
       "type": "apps",
@@ -73,7 +73,7 @@
       "port": 4003
     },
     {
-      "version": 1,
+      "version": 2,
       "name": "api-fraud/app",
       "innerdir": "app/go",
       "type": "apps",
@@ -81,7 +81,7 @@
       "label": "apifraud"
     },
     {
-      "version": 1,
+      "version": 2,
       "name": "api-fraud/infra",
       "innerdir": "infra",
       "type": "apps",
@@ -91,7 +91,7 @@
       "port": 4004
     },
     {
-      "version": 1,
+      "version": 2,
       "name": "api-offer/app",
       "innerdir": "app/go",
       "type": "apps",
@@ -99,7 +99,7 @@
       "label": "apioffer"
     },
     {
-      "version": 1,
+      "version": 2,
       "name": "api-offer/infra",
       "innerdir": "infra",
       "type": "apps",

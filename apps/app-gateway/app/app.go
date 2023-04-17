@@ -7,7 +7,10 @@ import (
 	"github.com/ansrivas/fiberprometheus/v2"
 	"github.com/go-resty/resty/v2"
 	"github.com/gofiber/fiber/v2"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 	"os"
+	"time"
 )
 
 var app *fiber.App
@@ -26,56 +29,56 @@ func init() {
 }
 
 func main() {
+	zerolog.TimestampFieldName = "date"
 	var appname = os.Getenv("APP_NAME")
+	log.Logger = log.With().Str("application", appname).Logger()
 	prometheus := fiberprometheus.New(appname)
 	prometheus.RegisterAt(app, "/metrics")
 	app.Use(prometheus.Middleware)
 
-	server()
-
+	log.Info().Msg("meu teste gateway")
+	for true {
+		err := server()
+		if err != nil {
+			log.Err(err)
+		}
+		time.Sleep(3 * time.Second)
+	}
 }
 
-func server() {
-	app.Post("/run", func(c *fiber.Ctx) error {
-		c.Accepts("application/json")
-		var wrapper []model.Account
-		cus := &[]model.Customer{}
-		err := callGet[[]model.Customer](fmt.Sprintf("http://%s/customers", customer_host), cus)
+func server() error {
+
+	var wrapper []model.Account
+	cus := &[]model.Customer{}
+	err := callGet[[]model.Customer](fmt.Sprintf("http://%s/customers", customer_host), cus)
+	if err != nil {
+		return err
+	}
+	list := *cus
+	for _, item := range list {
+		log.Info().Msgf("customer %s", item.Name)
+		acc := &model.Account{}
+		err = callGet[model.Account](fmt.Sprintf("http://%s/accounts?customer_id=%s", account_host, item.Id), acc)
 		if err != nil {
 			return err
 		}
-		list := *cus
-		fmt.Println(list)
-		for _, item := range list {
-			fmt.Printf("customer %s", item.Name)
-			acc := &model.Account{}
-			err = callGet[model.Account](fmt.Sprintf("http://%s/accounts?customer_id=%s", account_host, item.Id), acc)
-			if err != nil {
-				return err
-			}
-			fmt.Printf("customer:%s account:%s ", item.Name, acc.Id)
-			fr := &model.Fraud{}
-			err = callGet[model.Fraud](fmt.Sprintf("http://%s/frauds/%s", fraud_host, acc.Id), fr)
-			if err != nil {
-				return err
-			}
-			acc.Allowed = fr.Allowed
-			of := &model.Offer{}
-			err = callGet[model.Offer](fmt.Sprintf("http://%s/offers?account_id=%s", offer_host, acc.Id), of)
-			if err != nil {
-				return err
-			}
-			acc.Items = of.Items
-			wrapper = append(wrapper, *acc)
+		log.Info().Msgf("customer:%s account:%s ", item.Name, acc.Id)
+		fr := &model.Fraud{}
+		err = callGet[model.Fraud](fmt.Sprintf("http://%s/frauds/%s", fraud_host, acc.Id), fr)
+		if err != nil {
+			return err
 		}
-		c.JSON(wrapper)
-		return nil
-	})
-
-	err := app.Listen(":3000")
-	if err != nil {
-		println(err)
+		acc.Allowed = fr.Allowed
+		of := &model.Offer{}
+		err = callGet[model.Offer](fmt.Sprintf("http://%s/offers?account_id=%s", offer_host, acc.Id), of)
+		if err != nil {
+			return err
+		}
+		log.Info().Msgf("offer size:%d", len(of.Items))
+		acc.Items = of.Items
+		wrapper = append(wrapper, *acc)
 	}
+	return nil
 }
 
 func callGet[T any](url string, t *T) error {

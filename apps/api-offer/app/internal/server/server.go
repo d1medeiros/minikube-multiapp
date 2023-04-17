@@ -5,6 +5,7 @@ import (
 	"api-offer/internal/errors"
 	"fmt"
 	"github.com/gofiber/fiber/v2"
+	"github.com/rs/zerolog/log"
 )
 
 func Run(app *fiber.App, port string) error {
@@ -22,7 +23,7 @@ func GetOffer(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(*offer)
+	log.Info().Msg(fmt.Sprintf("offers size: %d", len(offer.Items)))
 	c.JSON(*offer)
 	return nil
 }

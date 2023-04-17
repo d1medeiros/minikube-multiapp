@@ -1,19 +1,28 @@
 #!/bin/zsh
 
+minikube addons enable metrics-server
+
 kubectl create namespace monitoring
 
+
 # apps
-sh manager-cluster.sh "productapi"
-#  && sh manager-cluster.sh "apigateway" \
-#  && sh manager-cluster.sh "apicustomer" \
-#  && sh manager-cluster.sh "apiaccount" \
-#  && sh manager-cluster.sh "apifraud" \
-#  && sh manager-cluster.sh "apioffer"
+sh manager-cluster.sh "apiproduct" \
+  && sh manager-cluster.sh "apigateway" \
+  && sh manager-cluster.sh "apicustomer" \
+  && sh manager-cluster.sh "apiaccount" \
+  && sh manager-cluster.sh "apifraud" \
+  && sh manager-cluster.sh "apioffer"
 
 
 # infra
 #sh manager-cluster.sh "infra-create"
 #sh manager-cluster.sh "infra-delete"
+
+cd ./infra/efk/configmap
+sh create-configmap.sh
+
+#cd ..
+#kubectl apply -f .
 
 # commands
 ## portforward
