@@ -1,7 +1,7 @@
 {
   "config": [
     {
-      "version": 9,
+      "version": 3,
       "name": "app-gateway/app",
       "innerdir": "app/go",
       "type": "apps",
@@ -9,7 +9,7 @@
       "label": "apigateway"
     },
     {
-      "version": 9,
+      "version": 3,
       "name": "app-gateway/infra",
       "innerdir": "infra",
       "type": "apps",
@@ -19,7 +19,7 @@
       "port": 4000
     },
     {
-      "version": 5,
+      "version": 2,
       "name": "apiproduct/app",
       "innerdir": "app/java",
       "type": "apps",
@@ -27,7 +27,7 @@
       "label": "apiproduct"
     },
     {
-      "version": 5,
+      "version": 2,
       "name": "apiproduct/infra",
       "innerdir": "infra",
       "type": "apps",
@@ -55,7 +55,7 @@
       "port": 4002
     },
     {
-      "version": 6,
+      "version": 2,
       "name": "api-account/app",
       "innerdir": "app/go",
       "type": "apps",
@@ -63,7 +63,7 @@
       "label": "apiaccount"
     },
     {
-      "version": 6,
+      "version": 2,
       "name": "api-account/infra",
       "innerdir": "infra",
       "type": "apps",

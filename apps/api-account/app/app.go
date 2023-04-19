@@ -15,6 +15,7 @@ func main() {
 		DisableStartupMessage: true,
 	})
 	zerolog.TimestampFieldName = "date"
+	zerolog.ErrorFieldName = "message"
 	var appname = os.Getenv("APP_NAME")
 	log.Logger = log.With().Str("application", appname).Logger()
 	prometheus := fiberprometheus.New(appname)
@@ -23,9 +24,10 @@ func main() {
 	app.Get("/accounts", func(c *fiber.Ctx) error {
 		c.Accepts("application/json")
 		name := c.Query("customer_id", "0")
-		log.Info().Msg(fmt.Sprintf("finding %s", name))
+		tid := c.Get("tid", "-")
+		log.Info().Str("tid", tid).Msg(fmt.Sprintf("finding %s", name))
 		account, err := service.GetAccount(name)
-		log.Info().Msg(fmt.Sprintf("found account %s", account.Id))
+		log.Info().Str("tid", tid).Msg(fmt.Sprintf("found account %s", account.Id))
 		if err != nil {
 			return fiber.NewError(404, "nao encontrado")
 		} else {
@@ -35,6 +37,6 @@ func main() {
 
 	err := app.Listen(":3000")
 	if err != nil {
-		log.Err(err)
+		log.Error().Err(err).Msg("")
 	}
 }

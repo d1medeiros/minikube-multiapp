@@ -10,8 +10,11 @@ import (
 )
 
 func main() {
-	app := fiber.New()
+	app := fiber.New(fiber.Config{
+		DisableStartupMessage: true,
+	})
 	zerolog.TimestampFieldName = "date"
+	zerolog.ErrorFieldName = "message"
 	var appname = os.Getenv("APP_NAME")
 	log.Logger = log.With().Str("application", appname).Logger()
 	prometheus := fiberprometheus.New(appname)
@@ -20,6 +23,6 @@ func main() {
 
 	err := server.Run(app, ":3000")
 	if err != nil {
-		log.Err(err)
+		log.Error().Err(err).Msg("")
 	}
 }

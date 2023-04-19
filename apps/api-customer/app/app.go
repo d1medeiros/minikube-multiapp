@@ -12,6 +12,7 @@ import (
 func main() {
 	app := fiber.New()
 	zerolog.TimestampFieldName = "date"
+	zerolog.ErrorFieldName = "message"
 	var appname = os.Getenv("APP_NAME")
 	log.Logger = log.With().Str("application", appname).Logger()
 	prometheus := fiberprometheus.New(appname)
@@ -20,7 +21,8 @@ func main() {
 	app.Get("/customers", func(c *fiber.Ctx) error {
 		c.Accepts("application/json")
 		lc := service.GetCustomersAll()
-		log.Info().Msg("finding all customers")
+		tid := c.Get("tid", "-")
+		log.Info().Str("tid", tid).Msg("finding all customers")
 		return c.JSON(lc)
 	})
 	//app.Get("/customer/:id", func(c *fiber.Ctx) error {
@@ -41,6 +43,6 @@ func main() {
 
 	err := app.Listen(":3000")
 	if err != nil {
-		log.Err(err)
+		log.Error().Err(err).Msg("")
 	}
 }

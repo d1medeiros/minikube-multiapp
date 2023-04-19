@@ -16,6 +16,7 @@ func Run(app *fiber.App, port string) error {
 func GetOffer(c *fiber.Ctx) error {
 	c.Accepts("application/json")
 	id := c.Query("account_id", "-")
+	tid := c.Get("tid", "-")
 	offer, err := service.GetOffers(id)
 	if errors.IsHttpError(err) {
 		c.JSON(err.Error())
@@ -23,7 +24,7 @@ func GetOffer(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-	log.Info().Msg(fmt.Sprintf("offers size: %d", len(offer.Items)))
+	log.Info().Str("tid", tid).Msg(fmt.Sprintf("offers size: %d", len(offer.Items)))
 	c.JSON(*offer)
 	return nil
 }

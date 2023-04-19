@@ -10,8 +10,11 @@ import (
 )
 
 func main() {
-	app := fiber.New()
+	app := fiber.New(fiber.Config{
+		DisableStartupMessage: true,
+	})
 	zerolog.TimestampFieldName = "date"
+	zerolog.ErrorFieldName = "message"
 	var appname = os.Getenv("APP_NAME")
 	log.Logger = log.With().Str("application", appname).Logger()
 	prometheus := fiberprometheus.New(appname)
@@ -21,7 +24,8 @@ func main() {
 	app.Get("/frauds/:id", func(c *fiber.Ctx) error {
 		c.Accepts("application/json")
 		name := c.Params("id", "0")
-		log.Info().Msg(name)
+		tid := c.Get("tid", "-")
+		log.Info().Str("tid", tid).Msg(name)
 		isAllowed := service.Verify(name)
 		if !isAllowed {
 			return fiber.NewError(403, "nao permitido")
@@ -31,6 +35,6 @@ func main() {
 
 	err := app.Listen(":3000")
 	if err != nil {
-		log.Err(err)
+		log.Error().Err(err).Msg("")
 	}
 }
