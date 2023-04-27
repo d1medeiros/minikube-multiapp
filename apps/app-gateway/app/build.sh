@@ -19,5 +19,6 @@ echo $DOCKER_IMAGE
 GOOS=linux GOARCH=amd64 go build -ldflags "-extldflags '-static'" -o appbin ./app.go
 export DOCKER_IMAGE=$DOCKER_IMAGE
 echo ${DOCKER_IMAGE}
-docker build -t ${DOCKER_IMAGE} . --no-cache
+docker build -t ${DOCKER_IMAGE} .
+#docker push ${DOCKER_IMAGE}
 minikube image load ${DOCKER_IMAGE}

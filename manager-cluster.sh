@@ -32,6 +32,7 @@ do
   VERSION=$(cat ./finalconfig.json | jq '.version')
   TYPE=$(cat ./finalconfig.json | jq -r '.type')
   echo "running $NAMEMODULE version:$VERSION"
+
   if [ $TYPE == "apps" ]
   then
     echo "work type apps"

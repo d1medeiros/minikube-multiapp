@@ -16,6 +16,11 @@ spec:
       containers:
         - name: x
           image: x
+          resources:
+            requests:
+              memory: "64Mi"
+            limits:
+              memory: "128Mi"
           ports:
             - containerPort: x
           env:

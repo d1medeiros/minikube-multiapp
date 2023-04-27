@@ -41,6 +41,7 @@ cat ./template/service.yaml \
 #echo "changing image from:$IMAGE to:$NEWIMAGE"
 #yq -i '.spec.template.spec.containers[0].image |= "'$NEWIMAGE'"' deployment.yaml
 #
+#minikube kubectl -- delete -f .
 minikube kubectl -- apply -f .
 
 

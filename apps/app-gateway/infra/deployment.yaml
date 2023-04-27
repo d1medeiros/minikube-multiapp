@@ -15,7 +15,12 @@ spec:
     spec:
       containers:
         - name: apigateway
-          image: apigateway:3
+          image: apigateway:11
+          resources:
+            requests:
+              memory: "64Mi"
+            limits:
+              memory: "128Mi"
           ports:
             - containerPort: 3000
           env:
