@@ -10,6 +10,7 @@ require (
 	go.opentelemetry.io/otel/exporters/stdout/stdouttrace v1.14.0
 	go.opentelemetry.io/otel/sdk v1.14.0
 	go.opentelemetry.io/otel/trace v1.14.0
+	mylibs v0.0.0-00010101000000-000000000000
 )
 
 require (
@@ -21,3 +22,5 @@ require (
 	go.opentelemetry.io/otel/metric v0.37.0 // indirect
 	golang.org/x/sys v0.5.0 // indirect
 )
+
+replace mylibs => ../../mylibs

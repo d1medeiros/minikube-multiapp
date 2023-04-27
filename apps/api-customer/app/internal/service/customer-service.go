@@ -4,7 +4,7 @@ import (
 	"api-customer/internal/model"
 	"context"
 	"errors"
-	"go.opentelemetry.io/otel/trace"
+	"mylibs/pkg/observability/motel"
 )
 
 var mapper = map[string]model.Customer{
@@ -20,7 +20,7 @@ func GetCustomers(id string) (*model.Customer, error) {
 	return &c, nil
 }
 
-func GetCustomersAll(ctx context.Context, tr trace.Tracer) []model.Customer {
+func GetCustomersAll(ctx context.Context, tr motel.MyTracer) []model.Customer {
 	_, span := tr.Start(ctx, "GetCustomersAll")
 	defer span.End()
 

@@ -7,17 +7,12 @@ import (
 	"fmt"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
-	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
-	"go.opentelemetry.io/otel/attribute"
-	"go.opentelemetry.io/otel/trace"
 	"io/ioutil"
-	"math/rand"
-	"mylibs/pkg/mhttp"
+	"mylibs/pkg/observability/motel"
+	"mylibs/pkg/util"
 	"net/http"
 	"os"
-	"reflect"
 	"time"
-	"unsafe"
 )
 
 var customerClient http.Client
@@ -29,9 +24,7 @@ var fraud_host = os.Getenv("FRAUD_ENDPOINT")
 var offer_host = os.Getenv("OFFER_ENDPOINT")
 
 func init() {
-	customerClient = http.Client{
-		Transport: otelhttp.NewTransport(http.DefaultTransport),
-	}
+	customerClient = motel.NewClient()
 }
 
 func main() {
@@ -41,15 +34,15 @@ func main() {
 	log.Logger = log.With().Str("application", appname).Logger()
 
 	//trace
-	ow := mhttp.OTELWrapper{}
-	tp, err := ow.TracerProvider(appname, "http://simplest-collector.monitoring:14268/api/traces")
+	ow := motel.OTELWrapper{}
+	err := ow.TracerProvider2(appname, "http://simplest-collector.monitoring:14268/api/traces")
 	if err != nil {
 		panic(err)
 	}
 
 	log.Info().Msg("gateway init")
 	for true {
-		tr := tp.Tracer("Gateway-tracer")
+		tr := ow.Tracer("Gateway-tracer")
 		ctx, span := tr.Start(context.Background(), "start.gateway")
 		err := server(ctx, tr)
 		span.End()
@@ -60,8 +53,8 @@ func main() {
 	}
 }
 
-func server(ctx context.Context, tr trace.Tracer) error {
-	tid := RandStringBytes(18)
+func server(ctx context.Context, tr motel.MyTracer) error {
+	tid := util.RandStringBytes(18)
 	var wrapper []model.Account
 	cus := &[]model.Customer{}
 	err := callGet[[]model.Customer](ctx, tr, fmt.Sprintf("http://%s/customers", customer_host), cus, tid)
@@ -92,9 +85,9 @@ func server(ctx context.Context, tr trace.Tracer) error {
 	return nil
 }
 
-func callGet[T any](ctx context.Context, tr trace.Tracer, url string, t *T, tid string) error {
+func callGet[T any](ctx context.Context, tr motel.MyTracer, url string, t *T, tid string) error {
 	innerCtx, span := tr.Start(ctx, fmt.Sprintf("GET:%s", url))
-	span.SetAttributes(attribute.Key("tid").String(tid))
+	span.SetAttributes("tid", tid)
 	defer span.End()
 	log.Info().Msgf("call GET:%s", url)
 	req, err := http.NewRequestWithContext(innerCtx, "GET", url, nil)
@@ -114,41 +107,4 @@ func callGet[T any](ctx context.Context, tr trace.Tracer, url string, t *T, tid 
 		return err
 	}
 	return nil
-}
-
-const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-func RandStringBytes(n int) string {
-	b := make([]byte, n)
-	for i := range b {
-		b[i] = letterBytes[rand.Intn(len(letterBytes))]
-	}
-	return string(b)
-}
-
-func printContextInternals(ctx interface{}, inner bool) {
-	contextValues := reflect.ValueOf(ctx).Elem()
-	contextKeys := reflect.TypeOf(ctx).Elem()
-
-	if !inner {
-		fmt.Printf("\nFields for %s.%s\n", contextKeys.PkgPath(), contextKeys.Name())
-	}
-
-	if contextKeys.Kind() == reflect.Struct {
-		for i := 0; i < contextValues.NumField(); i++ {
-			reflectValue := contextValues.Field(i)
-			reflectValue = reflect.NewAt(reflectValue.Type(), unsafe.Pointer(reflectValue.UnsafeAddr())).Elem()
-
-			reflectField := contextKeys.Field(i)
-
-			if reflectField.Name == "Context" {
-				printContextInternals(reflectValue.Interface(), true)
-			} else {
-				fmt.Printf("field name: %+v\n", reflectField.Name)
-				fmt.Printf("value: %+v\n", reflectValue.Interface())
-			}
-		}
-	} else {
-		fmt.Printf("context is empty (int)\n")
-	}
 }

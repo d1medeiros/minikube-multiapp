@@ -1,7 +1,7 @@
 {
   "config": [
     {
-      "version": 11,
+      "version": 16,
       "name": "app-gateway/app",
       "innerdir": "app/go",
       "type": "apps",
@@ -9,7 +9,7 @@
       "label": "apigateway"
     },
     {
-      "version": 11,
+      "version": 16,
       "name": "app-gateway/infra",
       "innerdir": "infra",
       "type": "apps",
@@ -37,7 +37,7 @@
       "port": 4001
     },
     {
-      "version": 14,
+      "version": 15,
       "name": "api-customer/app",
       "innerdir": "app/go",
       "type": "apps",
@@ -45,7 +45,7 @@
       "label": "apicustomer"
     },
     {
-      "version": 14,
+      "version": 15,
       "name": "api-customer/infra",
       "innerdir": "infra",
       "type": "apps",

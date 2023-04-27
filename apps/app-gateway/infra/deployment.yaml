@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: apigateway
-          image: apigateway:11
+          image: apigateway:16
           resources:
             requests:
               memory: "64Mi"
