@@ -3,6 +3,8 @@ package service
 import (
 	"api-offer/internal/application/model"
 	"api-offer/internal/errors"
+	"context"
+	"mylibs/pkg/observability/motel"
 )
 
 var i1 = model.OfferItem{
@@ -33,7 +35,9 @@ var mapper = []model.Offer{
 	},
 }
 
-func GetOffers(id string) (*model.Offer, error) {
+func GetOffers(ctx context.Context, tr motel.MyTracer, id string) (*model.Offer, error) {
+	_, span := tr.Start(ctx, "GetOffers")
+	defer span.End()
 	if id == "-" {
 		return nil, errors.InternalError
 	}

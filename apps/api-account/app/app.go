@@ -2,41 +2,54 @@ package main
 
 import (
 	"api-account/internal/service"
+	"encoding/json"
 	"fmt"
-	"github.com/ansrivas/fiberprometheus/v2"
-	"github.com/gofiber/fiber/v2"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
+	"mylibs/pkg/observability/motel"
+	"net/http"
 	"os"
 )
 
+var appname = os.Getenv("APP_NAME")
+var traceEndpoint = os.Getenv("TRACE_ENDPOINT")
+
 func main() {
-	app := fiber.New(fiber.Config{
-		DisableStartupMessage: true,
-	})
 	zerolog.TimestampFieldName = "date"
 	zerolog.ErrorFieldName = "message"
-	var appname = os.Getenv("APP_NAME")
 	log.Logger = log.With().Str("application", appname).Logger()
-	prometheus := fiberprometheus.New(appname)
-	prometheus.RegisterAt(app, "/metrics")
-	app.Use(prometheus.Middleware)
-	app.Get("/accounts", func(c *fiber.Ctx) error {
-		c.Accepts("application/json")
-		name := c.Query("customer_id", "0")
-		tid := c.Get("tid", "-")
-		log.Info().Str("tid", tid).Msg(fmt.Sprintf("finding %s", name))
-		account, err := service.GetAccount(name)
-		log.Info().Str("tid", tid).Msg(fmt.Sprintf("found account %s", account.Id))
-		if err != nil {
-			return fiber.NewError(404, "nao encontrado")
-		} else {
-			return c.JSON(account)
-		}
-	})
 
-	err := app.Listen(":3000")
+	//trace
+	ow := motel.OTELWrapper{}
+	err := ow.TracerProvider2(appname, traceEndpoint)
 	if err != nil {
-		log.Error().Err(err).Msg("")
+		panic(err)
 	}
+	httpHandler := func(w http.ResponseWriter, r *http.Request) {
+		tid := r.Header.Get("tid")
+		ow.GetTextMapPropagatorExtractor(r.Context(), r.Header)
+		spanName := fmt.Sprintf("%s %s", r.Method, r.URL.Path)
+		tr := ow.Tracer("account-tracer")
+		ctx, span := tr.Start(r.Context(), spanName)
+		defer span.End()
+
+		span.SetAttributes("tid", tid)
+		q := r.URL.Query()
+		name := q.Get("customer_id")
+		account, err := service.GetAccount(ctx, tr, name)
+		log.Info().Str("tid", tid).Msg("finding accounts")
+		marshal, err := json.Marshal(account)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("500 - Something bad happened!"))
+		} else {
+			w.WriteHeader(http.StatusOK)
+			w.Write(marshal)
+		}
+	}
+	handler := http.HandlerFunc(httpHandler)
+	wrappedHandler := motel.NewHandler(handler, "account-instrumented")
+	http.Handle("/accounts", wrappedHandler)
+	err = http.ListenAndServe(":3000", nil)
+	panic(err)
 }

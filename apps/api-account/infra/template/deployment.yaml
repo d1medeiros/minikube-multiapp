@@ -23,3 +23,5 @@ spec:
               value: dns
             - name: APP_NAME
               value: x
+            - name: TRACE_ENDPOINT
+              value: "http://simplest-collector.monitoring:14268/api/traces"

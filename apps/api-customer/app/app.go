@@ -12,18 +12,18 @@ import (
 )
 
 var appname = os.Getenv("APP_NAME")
+var traceEndpoint = os.Getenv("TRACE_ENDPOINT")
 
 func main() {
 
 	//logs
 	zerolog.TimestampFieldName = "date"
 	zerolog.ErrorFieldName = "message"
-
 	log.Logger = log.With().Str("application", appname).Logger()
 
 	//trace
 	ow := motel.OTELWrapper{}
-	err := ow.TracerProvider2(appname, "http://simplest-collector.monitoring:14268/api/traces")
+	err := ow.TracerProvider2(appname, traceEndpoint)
 	if err != nil {
 		panic(err)
 	}

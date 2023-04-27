@@ -18,6 +18,7 @@ import (
 var customerClient http.Client
 
 var appname = os.Getenv("APP_NAME")
+var traceEndpoint = os.Getenv("TRACE_ENDPOINT")
 var customer_host = os.Getenv("CUSTOMER_ENDPOINT")
 var account_host = os.Getenv("ACCOUNT_ENDPOINT")
 var fraud_host = os.Getenv("FRAUD_ENDPOINT")
@@ -35,7 +36,7 @@ func main() {
 
 	//trace
 	ow := motel.OTELWrapper{}
-	err := ow.TracerProvider2(appname, "http://simplest-collector.monitoring:14268/api/traces")
+	err := ow.TracerProvider2(appname, traceEndpoint)
 	if err != nil {
 		panic(err)
 	}

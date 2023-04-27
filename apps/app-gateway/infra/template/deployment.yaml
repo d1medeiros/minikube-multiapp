@@ -36,3 +36,5 @@ spec:
               value: apifraud-svc:4004
             - name: OFFER_ENDPOINT
               value: apioffer-svc:4005
+            - name: TRACE_ENDPOINT
+              value: "http://simplest-collector.monitoring:14268/api/traces"
